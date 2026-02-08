@@ -120,7 +120,7 @@ const PopularTours = () => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.4 }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={container}
             className="max-w-2xl mb-16"
           >
@@ -155,7 +155,7 @@ const PopularTours = () => {
             className="grid gap-10 md:grid-cols-3"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, margin: "-120px" }}
             variants={container}
           >
             {tours.map((tour, index) => (
@@ -170,11 +170,13 @@ const PopularTours = () => {
                 }}
               >
                 {/* IMAGE + TAG */}
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden">
                   <img
                     src={tour.image}
                     alt={tour.title}
-                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                   />
 
                   {/* TAG BADGE */}

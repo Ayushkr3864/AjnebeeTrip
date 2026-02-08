@@ -49,13 +49,13 @@ const Navbar = () => {
           >
             Ajnabee<span className="text-emerald-400">Trip</span>
           </NavLink>
-            <a
-              href="tel:+919999999999"
-              className="flex items-center justify-center gap-3  py-2 px-7 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition"
-            >
-              <Phone />
-              Call Us
-            </a>
+          <a
+            href="tel:+917701 984 719"
+            className="flex items-center justify-center gap-3  py-2 px-7 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition"
+          >
+            <Phone />
+            Call Us
+          </a>
           {/* Desktop Menu */}
           <ul className="hidden md:flex gap-8 text-white/90 font-medium">
             {navLinks.map((link) => (
@@ -136,7 +136,7 @@ const Navbar = () => {
               {/* Call Us Button */}
               <div className="mt-auto pt-6 border-t border-white/10">
                 <a
-                  href="tel:+919999999999"
+                  href="tel:+917701 984 719"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition"
                 >
                   <Phone />
