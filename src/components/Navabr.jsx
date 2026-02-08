@@ -40,7 +40,7 @@ const Navbar = () => {
     <>
       {/* Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#12293d]/40 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
           {/* Logo */}
           <NavLink to="/">
             <img src="/Logo-bg.png" className="h-10 w-10" alt="Ajnaabee Trip" />
