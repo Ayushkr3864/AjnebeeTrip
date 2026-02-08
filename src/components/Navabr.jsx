@@ -64,7 +64,7 @@ const Navbar = () => {
                     }`
                   }
                 >
-                  <a href={link.navigate}>{link.name}</a>
+                 
                 </NavLink>
               </li>
             ))}
