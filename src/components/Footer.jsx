@@ -1,5 +1,7 @@
 import { Mail, Phone, MapPin } from "lucide-react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
+import { FaInstagram, FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
+
 
 const Footer = () => {
   return (
@@ -72,9 +74,47 @@ const Footer = () => {
               Subscribe
             </button>
           </div>
+          {/* Social Media */}
+          <div className="flex gap-4 mt-6">
+            <a
+              href="https://www.instagram.com/ajnabeetrips/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-full bg-white/10 hover:bg-emerald-500 transition"
+            >
+              <FaInstagram className="text-white text-lg" />
+            </a>
+
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-full bg-white/10 hover:bg-emerald-500 transition"
+            >
+              <FaFacebookF className="text-white text-lg" />
+            </a>
+
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-full bg-white/10 hover:bg-emerald-500 transition"
+            >
+              <FaTwitter className="text-white text-lg" />
+            </a>
+
+            <a
+              href="https://www.youtube.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-full bg-white/10 hover:bg-emerald-500 transition"
+            >
+              <FaYoutube className="text-white text-lg" />
+            </a>
+          </div>
 
           {/* Contact */}
-          <ul className="space-y-3 text-sm text-gray-400">
+          <ul className="space-y-3 text-sm mt-5 text-gray-400">
             <a href="tel:+9198119 53565">
               {" "}
               <li className="flex items-center gap-2">
