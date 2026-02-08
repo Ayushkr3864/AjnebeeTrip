@@ -52,7 +52,7 @@ const HeroSection = () => {
             <div className="max-w-4xl">
               {/* ✅ Animated Heading */}
               <AnimatedText
-                text="EXPLORE THE WORLD WITH AJNABEE TRIP"
+                text="Something Great is Taking Off! Our full website is launching soon."
                 className="text-white hero-heading text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
               />
 

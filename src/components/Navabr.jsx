@@ -42,15 +42,11 @@ const Navbar = () => {
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#12293d]/40 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           {/* Logo */}
-          <NavLink
-            to="/"
-            className="text-2xl hidden md:flex font-extrabold text-white"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
-            Ajnabee<span className="text-emerald-400">Trip</span>
+          <NavLink to="/">
+            <img src="/Logo-bg.png" className="h-10 w-10" alt="Ajnaabee Trip" />
           </NavLink>
           <a
-            href="tel:+917701 984 719"
+            href="tel:+9198119 53565"
             className="flex items-center justify-center gap-3  py-2 px-7 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition"
           >
             <Phone />
@@ -136,7 +132,7 @@ const Navbar = () => {
               {/* Call Us Button */}
               <div className="mt-auto pt-6 border-t border-white/10">
                 <a
-                  href="tel:+917701 984 719"
+                  href="tel:+9198119 53565"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition"
                 >
                   <Phone />

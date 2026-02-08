@@ -7,48 +7,44 @@ const destinations = [
   {
     name: "Himachal Pradesh",
     subtitle: "Mountains • Valleys",
-    oldPrice: "₹32,999",
-    newPrice: "₹24,999",
+    oldPrice: "₹12,999",
+    newPrice: "₹11,999",
     image:
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
+      "/Himachal.jpeg",
   },
   {
     name: "Goa",
     subtitle: "Beaches • Nightlife",
-    oldPrice: "₹21,999",
-    newPrice: "₹17,499",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
-  },
+    oldPrice: "₹12,999",
+    newPrice: "₹9,999",
+    image:"/Goa.jpeg"
+    },
   {
     name: "Rajasthan",
     subtitle: "Forts • Culture",
-    oldPrice: "₹36,999",
-    newPrice: "₹29,999",
-    image:
-      "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=80",
+    oldPrice: "₹7,999",
+    newPrice: "₹6,999",
+    image:"/Rajasthan.jpeg"
   },
   {
     name: "Kerala",
     subtitle: "Backwaters • Nature",
     oldPrice: "₹27,999",
     newPrice: "₹22,999",
-    image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-  },
+    image:"/Rajasthan.jpeg"  },
   {
     name: "Kashmir",
     subtitle: "Snow • Landscapes",
-    oldPrice: "₹33,999",
-    newPrice: "₹27,499",
+    oldPrice: "₹15,999",
+    newPrice: "₹14,499",
     image:
       "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80",
   },
   {
     name: "Andaman",
     subtitle: "Islands • Blue Waters",
-    oldPrice: "₹39,999",
-    newPrice: "₹32,999",
+    oldPrice: "₹24,999",
+    newPrice: "₹22,999",
     image:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
   },

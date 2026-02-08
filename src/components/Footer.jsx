@@ -12,9 +12,11 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 py-20 grid gap-12 md:grid-cols-3">
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold text-white mb-4">
-            Ajnabee<span className="text-emerald-400">Trip</span>
-          </h2>
+          <img
+            src="/Logo-bg.png"
+            className="h-30 w-30 -mt-5"
+            alt="Ajnaabee Trip"
+          />
           <p className="text-sm leading-relaxed text-gray-400">
             Crafting unforgettable travel experiences with comfort, care, and
             curated journeys across beautiful destinations.
@@ -73,10 +75,10 @@ const Footer = () => {
 
           {/* Contact */}
           <ul className="space-y-3 text-sm text-gray-400">
-            <a href="tel:+917701984719">
+            <a href="tel:+9198119 53565">
               {" "}
               <li className="flex items-center gap-2">
-                <Phone size={16} /> +91 7701984719
+                <Phone size={16} /> +91 98119 53565
               </li>
             </a>
             <a href="mailto:info@ajnabeetrip.com?subject=Travel Inquiry&body=Hello Ajnabee Trip,">

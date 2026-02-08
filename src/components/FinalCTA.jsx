@@ -29,14 +29,14 @@ const FinalCTA = () => {
 
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
           <a
-            href="tel:+917701984719"
+            href="tel:+91 98119 53565"
             className="flex items-center gap-3 px-6 py-3 rounded-full bg-sky-500 text-white font-medium"
           >
             <Phone size={18} /> Call Now
           </a>
 
           <a
-            href="https://wa.me/7701 984 719"
+            href="https://wa.me/98119 53565"
             className="flex items-center gap-3 px-6 py-3 rounded-full bg-emerald-500 text-white font-medium"
           >
             <MessageCircle size={18} /> WhatsApp
