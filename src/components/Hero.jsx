@@ -1,7 +1,24 @@
 import { motion } from "framer-motion";
 import AnimatedText from "./Animated";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef,useState } from "react";
+import WarningPopup from "./WarningPop";
+import TestingToast from "./TestingToast";
 import navbar from "../components/Navabr"
+const notifyVariant = {
+  hidden: {
+    opacity: 0,
+    y: -80,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
+};
+
 const slideUpItem = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -13,12 +30,25 @@ const slideUpItem = {
 
 const HeroSection = () => {
   const videoRef = useRef(null);
+  const [showWarning, setShowWarning] = useState(true);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = 2; // 🔥 adjust speed (1.2 – 1.5 ideal)
     }
   }, []);
+    const handleCloseWarning = () => {
+      setShowWarning(false);
+
+      // show toast after popup closes
+      setShowToast(true);
+
+      // auto hide toast
+      // setTimeout(() => {
+      //   setShowToast(false);
+      // }, 3000);
+    };
     return (
       <>
         <style>
@@ -33,6 +63,10 @@ const HeroSection = () => {
         `}
         </style>
         <section className="relative h-screen w-full overflow-hidden">
+          {/* ⚠️ WARNING POPUP */}
+          <WarningPopup open={showWarning} onClose={handleCloseWarning} />
+          {/* Testing Toast */}
+          <TestingToast show={showToast} />
           {/* Background Video */}
           <video
             className="absolute inset-0 w-full h-full object-cover"
@@ -51,10 +85,10 @@ const HeroSection = () => {
           <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
             <div className="max-w-4xl">
               {/* ✅ Animated Heading */}
-              <AnimatedText
+              {/* <AnimatedText
                 text="Something Great is Taking Off! Our full website is launching soon."
                 className="text-white hero-heading text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
-              />
+              /> */}
 
               {/* Subtitle */}
               <motion.p
