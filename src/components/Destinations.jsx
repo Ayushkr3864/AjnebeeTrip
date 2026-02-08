@@ -96,6 +96,7 @@ const Destinations = () => {
           SECTION
       ======================= */}
       <section
+        id="Destination"
         className="relative py-28"
         style={{
           background: `
