@@ -31,7 +31,7 @@ const destinations = [
     subtitle: "Backwaters • Nature",
     oldPrice: "₹27,999",
     newPrice: "₹22,999",
-    image:"/Rajasthan.jpeg"  },
+    image:"/Kerala.jpeg"  },
   {
     name: "Kashmir",
     subtitle: "Snow • Landscapes",
