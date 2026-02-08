@@ -23,9 +23,7 @@ export default function AdminLogin() {
       setSuccess(true)
       setTimeout(() => {
         setSuccess(false)
-        setTimeout(() => {
-          navigate("/Admin")
-        }, 2500);
+      navigate("/Admin");
       }, 2000);
     } catch (err) {
       setError("Invalid email or password");
@@ -66,7 +64,7 @@ export default function AdminLogin() {
                 />
                 <input
                   type="email"
-                  placeholder="enter admin email"
+                  placeholder="Enter Admin Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
