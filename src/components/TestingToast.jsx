@@ -16,7 +16,10 @@ export default function TestingToast({ show }) {
             <Info size={18} className="text-amber-400" />
             <p className="text-sm text-gray-200">
               You are viewing the site in{" "}
-              <span className="text-amber-400 font-semibold">testing mode. we will live soon</span>
+              <span className="text-amber-400 font-semibold">
+                Testing mode — we’re going live soon. Some features may be
+                unavailable.
+              </span>
             </p>
           </div>
         </motion.div>
