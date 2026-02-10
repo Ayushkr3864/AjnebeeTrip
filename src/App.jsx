@@ -12,6 +12,8 @@ import AdminOverview from "./pages/Admin/AdminOverview";
 import AdminTrips from "./pages/Admin/AdminTrips";
 import AdminAddTrip from "./pages/Admin/AdminAddTrip";
 import AdminLayout from "./layouts/AdminLayout";
+import TripDetails from "./pages/TripDetails";
+import AdminReviews from "./pages/Admin/AdminReviews"
 
 console.log("Firebase Auth:", auth);
 
@@ -59,6 +61,17 @@ function App() {
             </Protected>
           }
         />
+        <Route
+          path="admin/feedback"
+          element={
+            <Protected>
+              <AdminLayout>
+                <AdminReviews />
+              </AdminLayout>
+            </Protected>
+          }
+        />
+        <Route path="/trip/:id" element={<TripDetails />} />
         <Route path="/admin" element={<Protected></Protected>} />
         <Route path="/admin/login" element={<AdminLogin />}></Route>
       </Routes>

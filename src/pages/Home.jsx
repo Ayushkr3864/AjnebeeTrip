@@ -5,7 +5,7 @@ import Hero from "../components/Hero";
    LAZY LOADED SECTIONS
 ========================== */
 const WhyChooseUs = React.lazy(() => import("../components/WhyChooseUs"));
-const Popular = React.lazy(() => import("../components/PopularTours"));
+const Popular = React.lazy(() => import("./PopularTours"));
 const Destinations = React.lazy(() => import("../components/Destinations"));
 const Testimonial = React.lazy(() => import("../components/Testimonials"));
 const CTA = React.lazy(() => import("../components/FinalCTA"));

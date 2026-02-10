@@ -1,61 +1,62 @@
 import { motion } from "framer-motion";
-
+import { useEffect, useState } from "react";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from "../firebase"; // path adjust karo
+import {useNavigate } from "react-router-dom"
 /* =======================
    TOUR DATA
 ======================= */
-const tours = [
-  {
-    title: "Himalayan Escape",
-    location: "Himachal • Uttarakhand",
-    duration: "7 Days / 6 Nights",
-    price: "From ₹11,999/-",
-    tag: "Popular",
-    image: "/Himachal.jpeg",
-  },
-  {
-    title: "Goa Coastal Bliss",
-    location: "Goa",
-    duration: "5 Days / 4 Nights",
-    price: "From ₹9,499/-",
-    tag: "Best Seller",
-    image: "/Goa.jpeg",
-  },
-  {
-    title: "Royal Rajasthan",
-    location: "Jaipur • Jodhpur • Udaipur",
-    duration: "6 Days / 5 Nights",
-    price: "From ₹6,999/-",
-    tag: "New",
-    image: "/Rajasthan.jpeg",
-  },
+// const tours = [
+//   {
+//     title: "Himalayan Escape",
+//     location: "Himachal • Uttarakhand",
+//     duration: "7 Days / 6 Nights",
+//     price: "From ₹11,999/-",
+//     tag: "Popular",
+//     image: "/Himachal.jpeg",
+//   },
+//   {
+//     title: "Goa Coastal Bliss",
+//     location: "Goa",
+//     duration: "5 Days / 4 Nights",
+//     price: "From ₹9,499/-",
+//     tag: "Best Seller",
+//     image: "/Goa.jpeg",
+//   },
+//   {
+//     title: "Royal Rajasthan",
+//     location: "Jaipur • Jodhpur • Udaipur",
+//     duration: "6 Days / 5 Nights",
+//     price: "From ₹6,999/-",
+//     tag: "New",
+//     image: "/Rajasthan.jpeg",
+//   },
 
-
-  {
-    title: "Kerala Backwater Retreat",
-    location: "Alleppey • Munnar • Kochi",
-    duration: "6 Days / 5 Nights",
-    price: "From ₹22,999/-",
-    tag: "Relaxing",
-    image: "/Kerala.jpeg",
-  },
-  {
-    title: "Kashmir Paradise Tour",
-    location: "Srinagar • Gulmarg • Pahalgam",
-    duration: "5 Days / 4 Nights",
-    price: "From ₹14,999/-",
-    tag: "Trending",
-    image: "https://images.unsplash.com/photo-1548013146-72479768bada",
-  },
-  {
-    title: "Andaman Island Getaway",
-    location: "Port Blair • Havelock",
-    duration: "5 Days / 4 Nights",
-    price: "From ₹22,999/-",
-    tag: "Premium",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-  },
-];
-
+//   {
+//     title: "Kerala Backwater Retreat",
+//     location: "Alleppey • Munnar • Kochi",
+//     duration: "6 Days / 5 Nights",
+//     price: "From ₹22,999/-",
+//     tag: "Relaxing",
+//     image: "/Kerala.jpeg",
+//   },
+//   {
+//     title: "Kashmir Paradise Tour",
+//     location: "Srinagar • Gulmarg • Pahalgam",
+//     duration: "5 Days / 4 Nights",
+//     price: "From ₹14,999/-",
+//     tag: "Trending",
+//     image: "https://images.unsplash.com/photo-1548013146-72479768bada",
+//   },
+//   {
+//     title: "Andaman Island Getaway",
+//     location: "Port Blair • Havelock",
+//     duration: "5 Days / 4 Nights",
+//     price: "From ₹22,999/-",
+//     tag: "Premium",
+//     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+//   },
+// ];
 
 /* =======================
    ANIMATIONS
@@ -77,6 +78,38 @@ const fadeUp = {
 };
 
 const PopularTours = () => {
+  
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+const navigate = useNavigate()
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        const q = query(
+          collection(db, "trips"),
+          orderBy("createdAt", "desc")
+        );
+
+        const snapshot = await getDocs(q);
+
+        const tripsData = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setTours(tripsData);
+        console.log("popular tripsData",tripsData);
+        
+      } catch (error) {
+        console.error("Error fetching trips:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrips();
+  }, []);
+
   return (
     <>
       {/* =======================
@@ -146,6 +179,12 @@ const PopularTours = () => {
               beauty, and unforgettable experiences.
             </motion.p>
           </motion.div>
+
+          {loading && (
+            <p className="text-center text-lg text-gray-500">
+              Loading trips...
+            </p>
+          )}
 
           {/* =======================
               TOUR CARDS
@@ -224,11 +263,12 @@ const PopularTours = () => {
                       className="font-semibold"
                       style={{ color: "var(--accent-main)" }}
                     >
-                      {tour.price}
+                      ₹{tour.price}/-
                     </span>
 
                     <button
                       className="px-4 py-2 rounded-full text-sm font-medium transition"
+                      onClick={() => navigate(`/trip/${tour.id}`)}
                       style={{
                         background:
                           "linear-gradient(135deg, var(--accent-main), var(--accent-sharp))",
@@ -248,4 +288,4 @@ const PopularTours = () => {
   );
 };
 
-export default PopularTours;
+export default PopularTours

@@ -2,9 +2,57 @@ import { useState } from "react";
 import { ArrowLeft, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "../../index.css";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../../firebase"; // path check karo
+import { auth } from "../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase";
+const uploadToCloudinary = async (file) => {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
+
+  const cloudName = import.meta.env.VITE_CLOUD_NAME;
+console.log("cloud",cloudName);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: data,
+    },
+  );
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    console.error("Cloudinary error:", result);
+    throw new Error(result.error?.message || "Image upload failed");
+  }
+
+  return result.secure_url;
+};
+
+
+
+import { getFirestore } from "firebase/firestore";
+import { getApp } from "firebase/app";
+
+console.log(getFirestore(getApp()));
+
+
+console.log("Current user:", auth.currentUser);
+
+
+
+
 
 export default function AdminAddTrip() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+const [imageFile, setImageFile] = useState(null);
+const [imagePreview, setImagePreview] = useState(null);
+
 
   const [formData, setFormData] = useState({
     title: "",
@@ -16,6 +64,8 @@ export default function AdminAddTrip() {
     description: "",
     tags: [],
   });
+  
+
 
   const [tagInput, setTagInput] = useState("");
 
@@ -47,12 +97,55 @@ export default function AdminAddTrip() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Trip Data:", formData);
-    alert("Trip added (UI only)");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    let imageURL = "";
+
+    if (imageFile) {
+      imageURL = await uploadToCloudinary(imageFile);
+    }
+
+    await addDoc(collection(db, "trips"), {
+      title: formData.title.trim(),
+      location: formData.location.trim(),
+      price: Number(formData.price),
+      duration: formData.duration,
+      image: imageURL, // ✅ Cloudinary URL
+      description: formData.description,
+      tags: formData.tags,
+      status: formData.status,
+      createdAt: serverTimestamp(),
+    });
+
+    alert("Trip added successfully 🚀");
     navigate("/admin/trips");
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Failed to add trip ❌");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+if (!auth.currentUser) {
+  alert("Not authorized");
+  return;
+}
+// if (!formData.title || !formData.location || !formData.price) {
+//   alert("Please fill all required fields");
+//   return;
+  // }
+// if (imageFile && imageFile.size > 2 * 1024 * 1024) {
+//   alert("Image must be under 2MB");
+//   return;
+// }
+console.log(import.meta.env);
+
 
   return (
     <div className="text-white max-w-3xl mx-auto  ">
@@ -105,6 +198,7 @@ export default function AdminAddTrip() {
 
             <input
               name="price"
+              type="number"
               placeholder="Price (₹)"
               value={formData.price}
               onChange={handleChange}
@@ -123,17 +217,41 @@ export default function AdminAddTrip() {
         </div>
 
         {/* MEDIA */}
-        <div>
-          <h3 className="text-sm font-semibold text-amber-400 mb-3">Media</h3>
+        {/* <input
+          type="text"
+          name="image"
+          placeholder="enter image link"
+          onChange={handleChange}
+          value={formData.image}
+          className="input"
+        /> */}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (!file) return;
 
-          <input
-            name="image"
-            placeholder="Image URL"
-            value={formData.image}
-            onChange={handleChange}
-            className="input"
+            setImageFile(file);
+            setImagePreview(URL.createObjectURL(file));
+          }}
+          className="input"
+        />
+
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            className="mt-3 h-40 w-full object-cover rounded-lg border border-white/10"
           />
-        </div>
+        )}
+
+        {/* {imagePreview && (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="mt-3 h-40 w-full object-cover rounded-lg border border-white/10"
+          />
+        )} */}
 
         {/* DESCRIPTION */}
         <div>
@@ -209,6 +327,7 @@ export default function AdminAddTrip() {
 
           <button
             type="button"
+            disabled={loading}
             onClick={() => navigate("/admin/trips")}
             className="bg-white/10 hover:bg-white/20 px-6 py-2.5 rounded-lg"
           >
