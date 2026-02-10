@@ -5,7 +5,7 @@ import { db } from "../firebase";
 import { useNavigate } from "react-router-dom"
 import ReviewsCarousel from "../components/ReviewsCarousel";
 import GiveReviewModal from "../components/GiveReviewModal";
-
+import Navbar from "../components/Navabr"
 
 
 const TripDetails = () => {
@@ -28,6 +28,7 @@ const TripDetails = () => {
 
   return (
     <>
+      <Navbar />
       {/* HERO */}
       <section className="relative h-[55vh] md:h-[70vh]">
         <img
@@ -42,9 +43,7 @@ const TripDetails = () => {
           <p className="mt-3 text-lg opacity-90">{trip.location}</p>
 
           <div className="mt-8 flex gap-4">
-            <button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold"
-            >
+            <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold">
               Get Itinerary
             </button>
             <button className="border border-white px-6 py-3 rounded-full">
