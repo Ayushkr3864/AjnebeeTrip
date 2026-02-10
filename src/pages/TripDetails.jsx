@@ -80,7 +80,7 @@ const TripDetails = () => {
           {/* TABS */}
           <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="flex flex-wrap gap-3">
-              {["itinerary", "dates", "inclusions"].map((tab) => (
+              {["itinerary", "dates", "inclusions", "exclusions"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -134,6 +134,15 @@ const TripDetails = () => {
             <div className="bg-gray-50 p-6 rounded-2xl">
               <ul className="list-disc pl-5 space-y-2 text-gray-700">
                 {trip.includes?.map((i, idx) => <li key={idx}>{i}</li>) || (
+                  <li>Hotels, Meals, Sightseeing</li>
+                )}
+              </ul>
+            </div>
+          )}
+          {activeTab === "exclusions" && (
+            <div className="bg-gray-50 p-6 rounded-2xl">
+              <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                {trip.excludes?.map((i, idx) => <li key={idx}>{i}</li>) || (
                   <li>Hotels, Meals, Sightseeing</li>
                 )}
               </ul>

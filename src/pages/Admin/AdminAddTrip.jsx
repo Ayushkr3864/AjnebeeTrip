@@ -13,7 +13,7 @@ const uploadToCloudinary = async (file) => {
   data.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
 
   const cloudName = import.meta.env.VITE_CLOUD_NAME;
-console.log("cloud",cloudName);
+// console.log("cloud",cloudName);
 
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
@@ -52,18 +52,23 @@ export default function AdminAddTrip() {
   const [loading, setLoading] = useState(false);
 const [imageFile, setImageFile] = useState(null);
 const [imagePreview, setImagePreview] = useState(null);
+const [includeInput, setIncludeInput] = useState("");
+const [excludeInput, setExcludeInput] = useState("");
 
 
-  const [formData, setFormData] = useState({
-    title: "",
-    location: "",
-    price: "",
-    duration: "",
-    image: "",
-    status: "Active",
-    description: "",
-    tags: [],
-  });
+ const [formData, setFormData] = useState({
+   title: "",
+   location: "",
+   price: "",
+   duration: "",
+   image: "",
+   status: "Active",
+   description: "",
+   tags: [],
+   includes: [], // ✅ NEW
+   excludes: [], // ✅ NEW
+ });
+
   
 
 
@@ -89,6 +94,42 @@ const [imagePreview, setImagePreview] = useState(null);
       setTagInput("");
     }
   };
+  const addInclude = (e) => {
+    if (e.key === "Enter" && includeInput.trim()) {
+      e.preventDefault();
+      setFormData({
+        ...formData,
+        includes: [...formData.includes, includeInput.trim()],
+      });
+      setIncludeInput("");
+    }
+  };
+
+  const removeInclude = (item) => {
+    setFormData({
+      ...formData,
+      includes: formData.includes.filter((i) => i !== item),
+    });
+  };
+
+  const addExclude = (e) => {
+    if (e.key === "Enter" && excludeInput.trim()) {
+      e.preventDefault();
+      setFormData({
+        ...formData,
+        excludes: [...formData.excludes, excludeInput.trim()],
+      });
+      setExcludeInput("");
+    }
+  };
+
+  const removeExclude = (item) => {
+    setFormData({
+      ...formData,
+      excludes: formData.excludes.filter((i) => i !== item),
+    });
+  };
+
 
   const removeTag = (tag) => {
     setFormData({
@@ -108,17 +149,19 @@ const handleSubmit = async (e) => {
       imageURL = await uploadToCloudinary(imageFile);
     }
 
-    await addDoc(collection(db, "trips"), {
-      title: formData.title.trim(),
-      location: formData.location.trim(),
-      price: Number(formData.price),
-      duration: formData.duration,
-      image: imageURL, // ✅ Cloudinary URL
-      description: formData.description,
-      tags: formData.tags,
-      status: formData.status,
-      createdAt: serverTimestamp(),
-    });
+  await addDoc(collection(db, "trips"), {
+    title: formData.title.trim(),
+    location: formData.location.trim(),
+    price: Number(formData.price),
+    duration: formData.duration,
+    image: imageURL,
+    description: formData.description,
+    tags: formData.tags,
+    includes: formData.includes, // ✅
+    excludes: formData.excludes, // ✅
+    status: formData.status,
+    createdAt: serverTimestamp(),
+  });
 
     alert("Trip added successfully 🚀");
     navigate("/admin/trips");
@@ -144,7 +187,7 @@ if (!auth.currentUser) {
 //   alert("Image must be under 2MB");
 //   return;
 // }
-console.log(import.meta.env);
+// console.log(import.meta.env);
 
 
   return (
@@ -292,6 +335,71 @@ console.log(import.meta.env);
                 <button
                   type="button"
                   onClick={() => removeTag(tag)}
+                  className="hover:text-white"
+                >
+                  <X size={14} />
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+        {/* INCLUDES */}
+        <div>
+          <h3 className="text-sm font-semibold text-amber-400 mb-3">
+            Includes
+          </h3>
+
+          <input
+            placeholder="Type & press Enter (Hotel, Meals, Sightseeing)"
+            value={includeInput}
+            onChange={(e) => setIncludeInput(e.target.value)}
+            onKeyDown={addInclude}
+            className="input"
+          />
+
+          <div className="flex flex-wrap gap-2 mt-3">
+            {formData.includes.map((item, index) => (
+              <span
+                key={index}
+                className="flex items-center gap-1 bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm font-semibold"
+              >
+                {item}
+                <button
+                  type="button"
+                  onClick={() => removeInclude(item)}
+                  className="hover:text-white"
+                >
+                  <X size={14} />
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* EXCLUDES */}
+        <div>
+          <h3 className="text-sm font-semibold text-amber-400 mb-3">
+            Excludes
+          </h3>
+
+          <input
+            placeholder="Type & press Enter (Flights, Personal expenses)"
+            value={excludeInput}
+            onChange={(e) => setExcludeInput(e.target.value)}
+            onKeyDown={addExclude}
+            className="input"
+          />
+
+          <div className="flex flex-wrap gap-2 mt-3">
+            {formData.excludes.map((item, index) => (
+              <span
+                key={index}
+                className="flex items-center gap-1 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-semibold"
+              >
+                {item}
+                <button
+                  type="button"
+                  onClick={() => removeExclude(item)}
                   className="hover:text-white"
                 >
                   <X size={14} />
