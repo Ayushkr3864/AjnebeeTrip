@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import AnimatedText from "./Animated";
 import { useEffect, useRef, useState } from "react";
-import WarningPopup from "./WarningPop";
+// import WarningPopup from "./WarningPop";
 import TestingToast from "./TestingToast";
 import navbar from "./Navbar";
 
@@ -65,7 +65,7 @@ const HeroSection = () => {
       </style>
       <section className="relative h-screen w-full overflow-hidden">
         {/* ⚠️ WARNING POPUP */}
-        <WarningPopup open={showWarning} onClose={handleCloseWarning} />
+        {/* <WarningPopup open={showWarning} onClose={handleCloseWarning} /> */}
         {/* Testing Toast */}
         <TestingToast show={showToast} />
         {/* Background Video */}
