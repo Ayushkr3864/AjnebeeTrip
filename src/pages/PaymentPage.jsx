@@ -17,7 +17,7 @@ Persons: ${booking.persons}
 Total: ₹${booking.totalPrice}
 `;
 
-  const whatsappLink = `https://wa.me/919811953565?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/+919811953565?text=${encodeURIComponent(
     whatsappMessage,
   )}`;
 
@@ -40,7 +40,7 @@ Total: ₹${booking.totalPrice}
 
         <div className="flex flex-col gap-3">
           <a
-            href="tel:+919811953565"
+            href="tel:+91 98119 53565"
             className="bg-green-600 text-white py-3 rounded-full"
           >
             Call Us
