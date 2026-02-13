@@ -19,6 +19,8 @@ const TripDetails = () => {
       const ref = doc(db, "trips", id);
       const snap = await getDoc(ref);
       if (snap.exists()) setTrip(snap.data());
+      console.log(snap.data());
+      
     };
     fetchTrip();
   }, [id]);
@@ -45,7 +47,10 @@ const TripDetails = () => {
             <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold">
               Get Itinerary
             </button>
-            <button className="border border-white px-6 py-3 rounded-full">
+            <button
+              onClick={() => navigate(`/book/${id}`)}
+              className="border border-white px-6 py-3 rounded-full"
+            >
               Book Now
             </button>
           </div>
@@ -177,7 +182,10 @@ const TripDetails = () => {
             </tbody>
           </table>
 
-          <button className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-full font-semibold">
+          <button
+            onClick={() => navigate(`/book/${trip.id}`)}
+            className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-full font-semibold"
+          >
             Book Now
           </button>
         </div>

@@ -54,20 +54,48 @@ const [imageFile, setImageFile] = useState(null);
 const [imagePreview, setImagePreview] = useState(null);
 const [includeInput, setIncludeInput] = useState("");
 const [excludeInput, setExcludeInput] = useState("");
+const [step, setStep] = useState(1);
 
 
- const [formData, setFormData] = useState({
-   title: "",
-   location: "",
-   price: "",
-   duration: "",
-   image: "",
-   status: "Active",
-   description: "",
-   tags: [],
-   includes: [], // ✅ NEW
-   excludes: [], // ✅ NEW
- });
+const [formData, setFormData] = useState({
+  title: "",
+  location: "",
+  duration: "",
+  description: "",
+  status: "Active",
+  itineraryLink: "",
+
+  pricing: {
+    single: "",
+    double: "",
+    triple: "",
+  },
+
+  availableDates: [],
+  tags: [],
+  includes: [],
+  excludes: [],
+});
+const [dateInput, setDateInput] = useState("");
+
+  const addDate = (e) => {
+    if (e.key === "Enter" && dateInput.trim()) {
+      e.preventDefault();
+      setFormData({
+        ...formData,
+        availableDates: [...formData.availableDates, dateInput],
+      });
+      setDateInput("");
+    }
+  };
+
+  const removeDate = (date) => {
+    setFormData({
+      ...formData,
+      availableDates: formData.availableDates.filter((d) => d !== date),
+    });
+  };
+
 
   
 
@@ -152,16 +180,26 @@ const handleSubmit = async (e) => {
   await addDoc(collection(db, "trips"), {
     title: formData.title.trim(),
     location: formData.location.trim(),
-    price: Number(formData.price),
     duration: formData.duration,
-    image: imageURL,
     description: formData.description,
+    image: imageURL,
+
+    pricing: {
+      single: Number(formData.pricing.single),
+      double: Number(formData.pricing.double),
+      triple: Number(formData.pricing.triple),
+    },
+
+    availableDates: formData.availableDates,
+    itineraryLink: formData.itineraryLink.trim(),
+
     tags: formData.tags,
-    includes: formData.includes, // ✅
-    excludes: formData.excludes, // ✅
+    includes: formData.includes,
+    excludes: formData.excludes,
     status: formData.status,
     createdAt: serverTimestamp(),
   });
+
 
     alert("Trip added successfully 🚀");
     navigate("/admin/trips");
@@ -215,80 +253,70 @@ if (!auth.currentUser) {
         className="rounded-2xl bg-white/5 border border-white/10 p-6 space-y-6"
       >
         {/* BASIC INFO */}
-        <div>
-          <h3 className="text-sm font-semibold text-amber-400 mb-3">
-            Basic Information
-          </h3>
+        {step == 1 && (
+          <>
+            <div>
+              <h2 className="text-lg font-bold text-amber-400 mb-4">
+                Basic Details
+              </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <input
+                  name="title"
+                  placeholder="Trip Name"
+                  value={formData.title}
+                  onChange={handleChange}
+                  className="input"
+                />
+
+                <input
+                  name="location"
+                  placeholder="Location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="input"
+                />
+
+                <input
+                  name="duration"
+                  placeholder="Duration"
+                  value={formData.duration}
+                  onChange={handleChange}
+                  className="input"
+                />
+              </div>
+
+              <textarea
+                name="description"
+                placeholder="Trip Description"
+                value={formData.description}
+                onChange={handleChange}
+                rows={4}
+                className="input mt-4"
+              />
+            </div>
+
             <input
-              name="title"
-              placeholder="Trip Name"
-              value={formData.title}
-              onChange={handleChange}
-              required
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                setImageFile(file);
+                setImagePreview(URL.createObjectURL(file));
+              }}
               className="input"
             />
 
-            <input
-              name="location"
-              placeholder="Location"
-              value={formData.location}
-              onChange={handleChange}
-              required
-              className="input"
-            />
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                className="mt-3 h-40 w-full object-cover rounded-lg border border-white/10"
+              />
+            )}
 
-            <input
-              name="price"
-              type="number"
-              placeholder="Price (₹)"
-              value={formData.price}
-              onChange={handleChange}
-              required
-              className="input"
-            />
-
-            <input
-              name="duration"
-              placeholder="Duration (e.g. 5 Days / 4 Nights)"
-              value={formData.duration}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-        </div>
-
-        {/* MEDIA */}
-        {/* <input
-          type="text"
-          name="image"
-          placeholder="enter image link"
-          onChange={handleChange}
-          value={formData.image}
-          className="input"
-        /> */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            setImageFile(file);
-            setImagePreview(URL.createObjectURL(file));
-          }}
-          className="input"
-        />
-
-        {imagePreview && (
-          <img
-            src={imagePreview}
-            className="mt-3 h-40 w-full object-cover rounded-lg border border-white/10"
-          />
-        )}
-
-        {/* {imagePreview && (
+            {/* {imagePreview && (
           <img
             src={imagePreview}
             alt="Preview"
@@ -296,152 +324,278 @@ if (!auth.currentUser) {
           />
         )} */}
 
-        {/* DESCRIPTION */}
-        <div>
-          <h3 className="text-sm font-semibold text-amber-400 mb-3">
-            Description
-          </h3>
+            {/* TAGS */}
+            <div>
+              <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                Tags
+              </h3>
 
-          <textarea
-            name="description"
-            placeholder="Short description about the trip"
-            value={formData.description}
-            onChange={handleChange}
-            rows={4}
-            className="input resize-none"
-          />
-        </div>
+              <input
+                placeholder="Type a tag and press Enter (e.g. Adventure, Budget)"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={addTag}
+                className="input"
+              />
 
-        {/* TAGS */}
-        <div>
-          <h3 className="text-sm font-semibold text-amber-400 mb-3">Tags</h3>
+              {/* Tags List */}
+              <div className="flex flex-wrap gap-2 mt-3">
+                {formData.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center gap-1 bg-amber-400/20 text-amber-400 px-3 py-1 rounded-full text-sm font-semibold"
+                  >
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(tag)}
+                      className="hover:text-white"
+                    >
+                      <X size={14} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* INCLUDES */}
+            <div>
+              <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                Includes
+              </h3>
 
-          <input
-            placeholder="Type a tag and press Enter (e.g. Adventure, Budget)"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={addTag}
-            className="input"
-          />
+              <input
+                placeholder="Type & press Enter (Hotel, Meals, Sightseeing)"
+                value={includeInput}
+                onChange={(e) => setIncludeInput(e.target.value)}
+                onKeyDown={addInclude}
+                className="input"
+              />
 
-          {/* Tags List */}
-          <div className="flex flex-wrap gap-2 mt-3">
-            {formData.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="flex items-center gap-1 bg-amber-400/20 text-amber-400 px-3 py-1 rounded-full text-sm font-semibold"
+              <div className="flex flex-wrap gap-2 mt-3">
+                {formData.includes.map((item, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center gap-1 bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm font-semibold"
+                  >
+                    {item}
+                    <button
+                      type="button"
+                      onClick={() => removeInclude(item)}
+                      className="hover:text-white"
+                    >
+                      <X size={14} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* EXCLUDES */}
+            <div>
+              <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                Excludes
+              </h3>
+
+              <input
+                placeholder="Type & press Enter (Flights, Personal expenses)"
+                value={excludeInput}
+                onChange={(e) => setExcludeInput(e.target.value)}
+                onKeyDown={addExclude}
+                className="input"
+              />
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                {formData.excludes.map((item, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center gap-1 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-semibold"
+                  >
+                    {item}
+                    <button
+                      type="button"
+                      onClick={() => removeExclude(item)}
+                      className="hover:text-white"
+                    >
+                      <X size={14} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* STATUS */}
+            <div>
+              <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                Status
+              </h3>
+
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="input"
               >
-                {tag}
-                <button
-                  type="button"
-                  onClick={() => removeTag(tag)}
-                  className="hover:text-white"
-                >
-                  <X size={14} />
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-        {/* INCLUDES */}
-        <div>
-          <h3 className="text-sm font-semibold text-amber-400 mb-3">
-            Includes
-          </h3>
-
-          <input
-            placeholder="Type & press Enter (Hotel, Meals, Sightseeing)"
-            value={includeInput}
-            onChange={(e) => setIncludeInput(e.target.value)}
-            onKeyDown={addInclude}
-            className="input"
-          />
-
-          <div className="flex flex-wrap gap-2 mt-3">
-            {formData.includes.map((item, index) => (
-              <span
-                key={index}
-                className="flex items-center gap-1 bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm font-semibold"
+                <option>Active</option>
+                <option>Inactive</option>
+              </select>
+              <button
+                type="button"
+                onClick={() => setStep(2)}
+                className="mt-6 bg-emerald-500 px-6 py-2 rounded-lg"
               >
-                {item}
-                <button
-                  type="button"
-                  onClick={() => removeInclude(item)}
-                  className="hover:text-white"
-                >
-                  <X size={14} />
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* EXCLUDES */}
-        <div>
-          <h3 className="text-sm font-semibold text-amber-400 mb-3">
-            Excludes
-          </h3>
-
-          <input
-            placeholder="Type & press Enter (Flights, Personal expenses)"
-            value={excludeInput}
-            onChange={(e) => setExcludeInput(e.target.value)}
-            onKeyDown={addExclude}
-            className="input"
-          />
-
-          <div className="flex flex-wrap gap-2 mt-3">
-            {formData.excludes.map((item, index) => (
-              <span
-                key={index}
-                className="flex items-center gap-1 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-semibold"
-              >
-                {item}
-                <button
-                  type="button"
-                  onClick={() => removeExclude(item)}
-                  className="hover:text-white"
-                >
-                  <X size={14} />
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* STATUS */}
-        <div>
-          <h3 className="text-sm font-semibold text-amber-400 mb-3">Status</h3>
-
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="input"
-          >
-            <option>Active</option>
-            <option>Inactive</option>
-          </select>
-        </div>
+                Next →
+              </button>
+            </div>
+          </>
+        )}
 
         {/* ACTIONS */}
-        <div className="flex gap-3 pt-4">
-          <button
-            type="submit"
-            className="bg-emerald-500 hover:bg-emerald-600 px-6 py-2.5 rounded-lg font-semibold"
-          >
-            Save Trip
-          </button>
+        {step === 2 && (
+          <div>
+            <h2 className="text-lg font-bold text-amber-400 mb-6">
+              Step 2: Pricing & Dates
+            </h2>
 
-          <button
-            type="button"
-            disabled={loading}
-            onClick={() => navigate("/admin/trips")}
-            className="bg-white/10 hover:bg-white/20 px-6 py-2.5 rounded-lg"
-          >
-            Cancel
-          </button>
-        </div>
+            {/* Pricing */}
+            <div className="grid md:grid-cols-3 gap-4">
+              <input
+                type="number"
+                placeholder="Single Sharing"
+                value={formData.pricing.single}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    pricing: {
+                      ...formData.pricing,
+                      single: e.target.value,
+                    },
+                  })
+                }
+                className="input"
+              />
+
+              <input
+                type="number"
+                placeholder="Double Sharing"
+                value={formData.pricing.double}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    pricing: {
+                      ...formData.pricing,
+                      double: e.target.value,
+                    },
+                  })
+                }
+                className="input"
+              />
+
+              <input
+                type="number"
+                placeholder="Triple Sharing"
+                value={formData.pricing.triple}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    pricing: {
+                      ...formData.pricing,
+                      triple: e.target.value,
+                    },
+                  })
+                }
+                className="input"
+              />
+            </div>
+
+            <input
+              type="url"
+              name="itineraryLink"
+              placeholder="Google Itinerary Link (Drive / Docs)"
+              value={formData.itineraryLink}
+              onChange={handleChange}
+              className="input mt-4"
+            />
+
+            
+            {/* Available Dates Section */}
+            <div className="mt-6">
+              <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                Available Dates
+              </h3>
+
+              <div className="flex gap-3">
+                <input
+                  type="date"
+                  value={dateInput}
+                  onChange={(e) => setDateInput(e.target.value)}
+                  className="input flex-1"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!dateInput) return;
+
+                    if (!formData.availableDates.includes(dateInput)) {
+                      setFormData({
+                        ...formData,
+                        availableDates: [...formData.availableDates, dateInput],
+                      });
+                    }
+
+                    setDateInput("");
+                  }}
+                  className="bg-blue-500 hover:bg-blue-600 px-4 rounded-lg text-white"
+                >
+                  Add
+                </button>
+              </div>
+
+              {/* Date Chips */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                {formData.availableDates.map((date, index) => (
+                  <span
+                    key={index}
+                    className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                  >
+                    {date}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData({
+                          ...formData,
+                          availableDates: formData.availableDates.filter(
+                            (d) => d !== date,
+                          ),
+                        })
+                      }
+                    >
+                      <X size={14} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex gap-4 mt-8">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="bg-white/10 px-6 py-2 rounded-lg"
+              >
+                ← Back
+              </button>
+
+              <button
+                type="submit"
+                className="bg-emerald-500 px-6 py-2 rounded-lg"
+              >
+                Save Trip
+              </button>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );

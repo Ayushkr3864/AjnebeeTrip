@@ -17,6 +17,7 @@ import AdminReviews from "./pages/Admin/AdminReviews";
 import AllTrip from "./pages/AllTrips";
 import AddDestination from "./pages/Admin/AddDestination";
 import DestinationDetails from "./pages/DestinationDetails";
+import BookingPage from "./pages/BookingPage"
 
 console.log("Firebase Auth:", auth);
 
@@ -76,6 +77,8 @@ function App() {
         />
         <Route path="/trip/:id" element={<TripDetails />} />
         <Route path="/alltrip" element={<AllTrip />} />
+        <Route path="/book/:id" element={<BookingPage />} />
+
         {/* <Route
           path="/admin/add-destination"
           element={
