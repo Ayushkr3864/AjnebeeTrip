@@ -17,7 +17,7 @@ Persons: ${booking.persons}
 Total: ₹${booking.totalPrice}
 `;
 
-  const whatsappLink = `https://wa.me/+919811953565?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/9811953565?text=${encodeURIComponent(
     whatsappMessage,
   )}`;
 

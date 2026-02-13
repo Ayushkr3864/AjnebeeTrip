@@ -19,6 +19,7 @@ import AddDestination from "./pages/Admin/AddDestination";
 import DestinationDetails from "./pages/DestinationDetails";
 import BookingPage from "./pages/BookingPage"
 import PaymentPage from "./pages/PaymentPage";
+import AdminBookings from "./pages/Admin/AdminBookings";
 
 console.log("Firebase Auth:", auth);
 
@@ -72,6 +73,16 @@ function App() {
             <Protected>
               <AdminLayout>
                 <AdminReviews />
+              </AdminLayout>
+            </Protected>
+          }
+        />
+        <Route
+          path="/admin/bookings"
+          element={
+            <Protected>
+              <AdminLayout>
+                <AdminBookings />
               </AdminLayout>
             </Protected>
           }
