@@ -6,6 +6,7 @@ import {
   LogOut,
   Menu,
   X,
+  RouteIcon
 } from "lucide-react";
 import { useState } from "react";
 
@@ -39,6 +40,9 @@ export default function AdminTopNav() {
           <NavLink to="/admin/feedback" className={navItemClass}>
             <MessageSquare size={16} /> Feedback
           </NavLink>
+          {/* <NavLink to="/admin/add-destination" className={navItemClass}>
+            <RouteIcon size={16} /> Add Destination
+          </NavLink> */}
         </nav>
 
         {/* Desktop Logout */}
@@ -82,6 +86,13 @@ export default function AdminTopNav() {
           >
             <MessageSquare size={16} /> Feedback
           </NavLink>
+           {/* <NavLink
+            to="/admin/add-destination"
+            onClick={() => setMobileOpen(false)}
+            className={navItemClass}
+          >
+            <RouteIcon size={16} /> Add destination
+          </NavLink> */}
 
           <button
             onClick={() => setMobileOpen(false)}

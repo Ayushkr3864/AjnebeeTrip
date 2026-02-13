@@ -9,6 +9,7 @@ const Popular = React.lazy(() => import("./PopularTours"));
 const Destinations = React.lazy(() => import("../components/Destinations"));
 const Testimonial = React.lazy(() => import("../components/Testimonials"));
 const CTA = React.lazy(() => import("../components/FinalCTA"));
+const Doubt = React.lazy(() => import("../components/Doubt"));
 
 /* ==========================
    SKELETON FALLBACK
@@ -32,10 +33,12 @@ function Home() {
         <Popular />
       </Suspense>
 
-      <Suspense fallback={<SectionSkeleton />}>
+      {/* <Suspense fallback={<SectionSkeleton />}>
         <Destinations />
+      </Suspense> */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <Doubt />
       </Suspense>
-
       <Suspense fallback={<SectionSkeleton />}>
         <Testimonial />
       </Suspense>

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { MapPin, CheckCircle, EyeOff, MessageSquare } from "lucide-react";
 import AdminTopNav from "../../components/AdminTopNav";
+import Subscriber from "./AdminSubscribers"
 const stats = [
   {
     title: "Total Trips",
@@ -79,31 +80,8 @@ export default function AdminOverview() {
             </motion.div>
           ))}
         </motion.div>
-
+        <Subscriber />
         {/* Quick Actions */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-2xl bg-white/5 border border-white/10 p-6">
-            <h3 className="text-lg font-semibold text-amber-400 mb-2">
-              Quick Actions
-            </h3>
-            <ul className="text-gray-300 text-sm space-y-2">
-              <li>➕ Add new trip</li>
-              <li>📝 Manage existing trips</li>
-              <li>💬 Review pending feedback</li>
-            </ul>
-          </div>
-
-          <div className="rounded-2xl bg-white/5 border border-white/10 p-6">
-            <h3 className="text-lg font-semibold text-amber-400 mb-2">
-              System Status
-            </h3>
-            <p className="text-sm text-gray-300">
-              Platform is running in{" "}
-              <span className="text-amber-400 font-semibold">testing mode</span>
-              . Some features may be unavailable.
-            </p>
-          </div>
-        </div>
       </div>
     </>
   );

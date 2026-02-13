@@ -2,17 +2,16 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import ReviewsCarousel from "../components/ReviewsCarousel";
 import GiveReviewModal from "../components/GiveReviewModal";
-import Navbar from "../components/Navabr"
-
+import Navbar from "../components/Navbar";
 
 const TripDetails = () => {
   const { id } = useParams();
   const [trip, setTrip] = useState(null);
-    const [activeTab, setActiveTab] = useState("dates");
-  const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState("dates");
+  const navigate = useNavigate();
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   useEffect(() => {

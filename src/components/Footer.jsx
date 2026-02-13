@@ -1,9 +1,71 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom"
 import { FaInstagram, FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
+import { useState } from "react";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { db } from "../firebase";
+
 
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubscribe = async () => {
+    if (!email) {
+      setMessage("Please enter your email");
+      return;
+    }
+
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setMessage("Please enter a valid email");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setMessage("");
+
+      // Check duplicate
+      const q = query(
+        collection(db, "subscribers"),
+        where("email", "==", email),
+      );
+
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        setMessage("You are already subscribed!");
+        setLoading(false);
+        return;
+      }
+
+      // Save to Firestore
+      await addDoc(collection(db, "subscribers"), {
+        email,
+        createdAt: serverTimestamp(),
+      });
+
+      setMessage("Subscribed successfully 🎉");
+      setEmail("");
+    } catch (error) {
+      console.error(error);
+      setMessage("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer
       id="footer"
@@ -63,17 +125,28 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-4">Stay Connected</h3>
 
-          {/* Newsletter */}
-          <div className="flex items-center mb-5 gap-2">
+          <div className="flex items-center mb-3 gap-2">
             <input
               type="email"
               placeholder="Your email"
-              className="w-full px-4 py-3 border-amber-100 border-2 rounded-lg text-sm text-gray-900 outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-white/20 bg-white/10 rounded-lg text-sm text-white outline-none"
             />
-            <button className="px-4 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold">
-              Subscribe
+
+            <button
+              onClick={handleSubscribe}
+              disabled={loading}
+              className="px-4 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition"
+            >
+              {loading ? "..." : "Subscribe"}
             </button>
           </div>
+
+          {message && (
+            <p className="text-sm mt-2 text-emerald-400">{message}</p>
+          )}
+
           {/* Social Media */}
           <div className="flex gap-4 mt-6">
             <a

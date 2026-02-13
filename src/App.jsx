@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
-import Navbar from "./components/Navabr";
+import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { auth } from "./firebase";
 import Protected from "./components/ProtectedRoute";
@@ -13,7 +13,10 @@ import AdminTrips from "./pages/Admin/AdminTrips";
 import AdminAddTrip from "./pages/Admin/AdminAddTrip";
 import AdminLayout from "./layouts/AdminLayout";
 import TripDetails from "./pages/TripDetails";
-import AdminReviews from "./pages/Admin/AdminReviews"
+import AdminReviews from "./pages/Admin/AdminReviews";
+import AllTrip from "./pages/AllTrips";
+import AddDestination from "./pages/Admin/AddDestination";
+import DestinationDetails from "./pages/DestinationDetails";
 
 console.log("Firebase Auth:", auth);
 
@@ -72,8 +75,21 @@ function App() {
           }
         />
         <Route path="/trip/:id" element={<TripDetails />} />
+        <Route path="/alltrip" element={<AllTrip />} />
+        {/* <Route
+          path="/admin/add-destination"
+          element={
+            <Protected>
+              <AdminLayout>
+                <AddDestination />
+              </AdminLayout>
+            </Protected>
+          }
+        /> */}
+
         <Route path="/admin" element={<Protected></Protected>} />
         <Route path="/admin/login" element={<AdminLogin />}></Route>
+        <Route path="/destinations/:slug" element={<DestinationDetails />} />
       </Routes>
     </>
   );

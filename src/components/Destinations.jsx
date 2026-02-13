@@ -1,4 +1,12 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../firebase"; // adjust path if needed
+import { useNavigate } from "react-router-dom";
+
+
+
+
 
 /* =======================
    DESTINATIONS DATA
@@ -68,6 +76,36 @@ const fadeUp = {
 };
 
 const Destinations = () => {
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDestinations = async () => {
+      try {
+        const q = query(
+          collection(db, "destinations"),
+          orderBy("createdAt", "desc"),
+        );
+
+        const snapshot = await getDocs(q);
+
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setDestinations(data);
+      } catch (error) {
+        console.error("Error fetching destinations:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDestinations();
+  }, []);
+
   return (
     <>
       {/* =======================
@@ -148,16 +186,16 @@ const Destinations = () => {
             "
             style={{ scrollbarWidth: "none" }}
           >
-            {destinations.map((item, index) => (
+            {destinations.map((item) => (
               <motion.div
-                key={index}
+                key={item.id}
                 variants={fadeUp}
                 className="group relative rounded-3xl overflow-hidden min-w-[280px]"
               >
                 {/* IMAGE */}
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img
-                    src={item.image}
+                    src={item.imageUrl}
                     alt={item.name}
                     loading="lazy"
                     decoding="async"
@@ -165,7 +203,7 @@ const Destinations = () => {
                   />
                 </div>
 
-                {/* PRICE TAG */}
+                {/* PRICE TAG
                 <div
                   className="absolute top-4 right-4 px-4 py-2 rounded-2xl backdrop-blur-md"
                   style={{
@@ -182,7 +220,7 @@ const Destinations = () => {
                   >
                     {item.newPrice}
                   </div>
-                </div>
+                </div> */}
 
                 {/* OVERLAY CONTENT */}
                 <div
@@ -214,6 +252,7 @@ const Destinations = () => {
 
                   {/* EXPLORE BUTTON */}
                   <motion.button
+                    onClick={() => navigate(`/destinations/${item.slug}`)}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.97 }}
                     className="

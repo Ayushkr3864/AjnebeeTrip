@@ -129,9 +129,9 @@ export default function AdminTrips() {
                     {trip.status}
                   </span>
 
-                  <button className="text-blue-400 hover:text-blue-500">
+                  {/* <button className="text-blue-400 hover:text-blue-500">
                     <Pencil size={18} />
-                  </button>
+                  </button> */}
 
                   <button
                     onClick={() => handleDelete(trip.id)}
