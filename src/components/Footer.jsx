@@ -59,7 +59,7 @@ const Footer = () => {
       setMessage("Subscribed successfully 🎉");
       setEmail("");
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       setMessage("Something went wrong!");
     } finally {
       setLoading(false);
