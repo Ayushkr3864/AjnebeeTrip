@@ -18,6 +18,7 @@ import AllTrip from "./pages/AllTrips";
 import AddDestination from "./pages/Admin/AddDestination";
 import DestinationDetails from "./pages/DestinationDetails";
 import BookingPage from "./pages/BookingPage"
+import PaymentPage from "./pages/PaymentPage";
 
 console.log("Firebase Auth:", auth);
 
@@ -78,6 +79,8 @@ function App() {
         <Route path="/trip/:id" element={<TripDetails />} />
         <Route path="/alltrip" element={<AllTrip />} />
         <Route path="/book/:id" element={<BookingPage />} />
+
+        <Route path="/payment/:id" element={<PaymentPage />} />
 
         {/* <Route
           path="/admin/add-destination"

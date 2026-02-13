@@ -359,13 +359,20 @@ const handleScroll = () => {
                       </p>
 
                       <div className="mt-6 flex items-center justify-between">
-                        <span className="font-semibold text-sky-500">
-                          ₹{tour.price}/-
-                        </span>
+                        <div>
+                          <p className="text-[15px] font-bold text-gray-900 ">Starting From</p>
+                          <span className="text-lg font-bold text-sky-500">
+                            ₹
+                            {tour.pricing?.double ??
+                              tour.pricing?.single ??
+                              tour.pricing?.triple ??
+                              "N/A"}
+                          </span>
+                        </div>
 
                         <button
                           onClick={() => navigate(`/trip/${tour.id}`)}
-                          className="px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-sky-500 to-green-500 text-white"
+                          className="px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-sky-500 to-green-500 text-white hover:scale-105 transition"
                         >
                           View Details
                         </button>
