@@ -45,7 +45,7 @@ const AnimatedText = ({ text, className }) => {
 
 export default AnimatedText;
 
-// import { motion } from "framer-motion";
+
 
 // const container = {
 //   hidden: {},
