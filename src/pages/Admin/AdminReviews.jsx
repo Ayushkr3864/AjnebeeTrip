@@ -97,16 +97,6 @@ useEffect(() => {
                   <h3 className="font-semibold text-lg">{review.name}</h3>
                   <p className="text-sm text-gray-400">{review.contact}</p>
                 </div>
-
-                <span
-                  className={`text-xs px-3 py-1 rounded-full ${
-                    review.approved
-                      ? "bg-green-600/20 text-green-400"
-                      : "bg-yellow-500/20 text-yellow-400"
-                  }`}
-                >
-                  {review.approved ? "Approved" : "Pending"}
-                </span>
               </div>
 
               {/* Rating */}

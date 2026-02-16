@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where,orderBy } from "firebase/firestore";
 import { db } from "../firebase";
 import { Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,12 +14,13 @@ export default function ReviewsCarousel({ tripId }) {
       const q = query(
         collection(db, "reviews"),
         where("tripId", "==", tripId),
-        orderBy("createdAt", "desc"),
       );
 
       const snapshot = await getDocs(q);
       const data = snapshot.docs.map((doc) => doc.data());
       setReviews(data);
+      console.log("review",data);
+      
     };
 
     fetchReviews();
