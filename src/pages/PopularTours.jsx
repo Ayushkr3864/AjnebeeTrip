@@ -363,8 +363,8 @@ const handleScroll = () => {
                           <p className="text-[15px] font-bold text-gray-900 ">Starting From</p>
                           <span className="text-lg font-bold text-sky-500">
                             ₹
-                            {tour.pricing?.double ??
-                              tour.pricing?.single ??
+                            {tour.pricing?.single ??
+                              tour.pricing?.double ??
                               tour.pricing?.triple ??
                               "N/A"}
                           </span>

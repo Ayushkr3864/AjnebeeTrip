@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import {
   LayoutDashboard,
   MapPin,
@@ -24,9 +24,12 @@ export default function AdminTopNav() {
     <header className="sticky top-0 z-30 bg-[#020617]/90 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Brand */}
-        <h1 className="text-xl font-bold text-amber-400">
-          AjnaBee Trip <span className="text-xs text-gray-400">Admin</span>
-        </h1>
+        <Link to="/Admin">
+          {" "}
+          <h1 className="text-xl font-bold text-amber-400">
+            AjnaBee Trip <span className="text-xs text-gray-400">Admin</span>
+          </h1>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-3">

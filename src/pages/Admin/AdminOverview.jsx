@@ -1,35 +1,106 @@
 import { motion } from "framer-motion";
 import { MapPin, CheckCircle, EyeOff, MessageSquare } from "lucide-react";
+import { useEffect, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../firebase";
+
 import AdminTopNav from "../../components/AdminTopNav";
-import Subscriber from "./AdminSubscribers"
-const stats = [
-  {
-    title: "Total Trips",
-    value: 12,
-    icon: MapPin,
-    color: "from-indigo-500 to-purple-500",
-  },
-  {
-    title: "Active Trips",
-    value: 9,
-    icon: CheckCircle,
-    color: "from-emerald-500 to-teal-500",
-  },
-  {
-    title: "Inactive Trips",
-    value: 3,
-    icon: EyeOff,
-    color: "from-rose-500 to-pink-500",
-  },
-  {
-    title: "Pending Feedback",
-    value: 5,
-    icon: MessageSquare,
-    color: "from-amber-400 to-orange-500",
-  },
-];
+import Subscriber from "./AdminSubscribers";
 
 export default function AdminOverview() {
+  const [stats, setStats] = useState([
+    {
+      title: "Total Trips",
+      value: 0,
+      icon: MapPin,
+      color: "from-indigo-500 to-purple-500",
+    },
+    {
+      title: "Active Trips",
+      value: 0,
+      icon: CheckCircle,
+      color: "from-emerald-500 to-teal-500",
+    },
+    {
+      title: "Inactive Trips",
+      value: 0,
+      icon: EyeOff,
+      color: "from-rose-500 to-pink-500",
+    },
+    {
+      title: "Pending Feedback",
+      value: 0,
+      icon: MessageSquare,
+      color: "from-amber-400 to-orange-500",
+    },
+  ]);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // 🔹 TOTAL TRIPS
+        const tripsSnapshot = await getDocs(collection(db, "trips"));
+        const totalTrips = tripsSnapshot.size;
+
+        // 🔹 ACTIVE TRIPS
+        const activeQuery = query(
+          collection(db, "trips"),
+          where("status", "==", "Active"),
+        );
+        const activeSnapshot = await getDocs(activeQuery);
+        const activeTrips = activeSnapshot.size;
+
+        // 🔹 INACTIVE TRIPS
+        const inactiveQuery = query(
+          collection(db, "trips"),
+          where("status", "==", "Inactive"),
+        );
+        const inactiveSnapshot = await getDocs(inactiveQuery);
+        const inactiveTrips = inactiveSnapshot.size;
+
+        // 🔹 PENDING FEEDBACK (reviews not approved)
+        const pendingQuery = query(
+          collection(db, "reviews"),
+          where("approved", "==", false),
+        );
+        const pendingSnapshot = await getDocs(pendingQuery);
+        const pendingReviews = pendingSnapshot.size;
+
+        // 🔹 Update state
+        setStats([
+          {
+            title: "Total Trips",
+            value: totalTrips,
+            icon: MapPin,
+            color: "from-indigo-500 to-purple-500",
+          },
+          {
+            title: "Active Trips",
+            value: activeTrips,
+            icon: CheckCircle,
+            color: "from-emerald-500 to-teal-500",
+          },
+          {
+            title: "Inactive Trips",
+            value: inactiveTrips,
+            icon: EyeOff,
+            color: "from-rose-500 to-pink-500",
+          },
+          {
+            title: "Pending Feedback",
+            value: pendingReviews,
+            icon: MessageSquare,
+            color: "from-amber-400 to-orange-500",
+          },
+        ]);
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   return (
     <>
       {/* <AdminTopNav /> */}
@@ -80,8 +151,8 @@ export default function AdminOverview() {
             </motion.div>
           ))}
         </motion.div>
+
         <Subscriber />
-        {/* Quick Actions */}
       </div>
     </>
   );

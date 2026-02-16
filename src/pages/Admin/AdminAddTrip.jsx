@@ -76,6 +76,42 @@ const [formData, setFormData] = useState({
   includes: [],
   excludes: [],
 });
+  const [dayInput, setDayInput] = useState({
+    title: "",
+    description: "",
+  });
+
+  const [itineraryDays, setItineraryDays] = useState([]);
+
+  const addDay = () => {
+    if (!dayInput.title.trim() || !dayInput.description.trim()) return;
+
+    const newDay = {
+      day: `Day ${itineraryDays.length + 1}`,
+      title: dayInput.title,
+      description: dayInput.description,
+    };
+
+    setItineraryDays([...itineraryDays, newDay]);
+
+    setDayInput({
+      title: "",
+      description: "",
+    });
+  };
+
+  const removeDay = (index) => {
+    const updated = itineraryDays.filter((_, i) => i !== index);
+
+    // re-number days again
+    const renumbered = updated.map((d, i) => ({
+      ...d,
+      day: `Day ${i + 1}`,
+    }));
+
+    setItineraryDays(renumbered);
+  };
+
 const [dateInput, setDateInput] = useState("");
 
   const addDate = (e) => {
@@ -193,6 +229,7 @@ const handleSubmit = async (e) => {
     availableDates: formData.availableDates,
     itineraryLink: formData.itineraryLink.trim(),
 
+    itineraryDays: itineraryDays,
     tags: formData.tags,
     includes: formData.includes,
     excludes: formData.excludes,
@@ -271,7 +308,7 @@ if (!auth.currentUser) {
 
                 <input
                   name="location"
-                  placeholder="Location"
+                  placeholder="Pickup/Drop"
                   value={formData.location}
                   onChange={handleChange}
                   className="input"
@@ -294,6 +331,68 @@ if (!auth.currentUser) {
                 rows={4}
                 className="input mt-4"
               />
+            </div>
+            {/* DAY WISE ITINERARY */}
+            <div className="mt-6">
+              <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                Day-wise Itinerary
+              </h3>
+
+              {/* INPUTS */}
+              <input
+                type="text"
+                placeholder="Day Title (e.g. Departure from Delhi)"
+                value={dayInput.title}
+                onChange={(e) =>
+                  setDayInput({ ...dayInput, title: e.target.value })
+                }
+                className="input mb-2"
+              />
+
+              <textarea
+                placeholder="Day Description"
+                rows={3}
+                value={dayInput.description}
+                onChange={(e) =>
+                  setDayInput({ ...dayInput, description: e.target.value })
+                }
+                className="input"
+              />
+
+              <button
+                type="button"
+                onClick={addDay}
+                className="mt-3 bg-indigo-500 px-4 py-2 rounded-lg text-white font-semibold"
+              >
+                ➕ Add Day
+              </button>
+
+              {/* DAY LIST */}
+              <div className="space-y-3 mt-4">
+                {itineraryDays.map((d, index) => (
+                  <div
+                    key={index}
+                    className="bg-indigo-500/10 border border-indigo-300 p-4 rounded-xl"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-bold text-indigo-400">{d.day}</p>
+                        <p className="font-semibold text-white">{d.title}</p>
+                        <p className="text-sm text-gray-300 mt-1">
+                          {d.description}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => removeDay(index)}
+                        className="text-red-400 hover:text-white"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <input
@@ -330,13 +429,34 @@ if (!auth.currentUser) {
                 Tags
               </h3>
 
-              <input
-                placeholder="Type a tag and press Enter (e.g. Adventure, Budget)"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={addTag}
-                className="input"
-              />
+              <div className="flex gap-2">
+                <input
+                  placeholder="Add tag (Adventure, Budget...)"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={addTag}
+                  className="input flex-1"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!tagInput.trim()) return;
+
+                    if (!formData.tags.includes(tagInput.trim())) {
+                      setFormData({
+                        ...formData,
+                        tags: [...formData.tags, tagInput.trim()],
+                      });
+                    }
+
+                    setTagInput("");
+                  }}
+                  className="bg-amber-500 px-4 rounded-lg text-black font-semibold"
+                >
+                  Add
+                </button>
+              </div>
 
               {/* Tags List */}
               <div className="flex flex-wrap gap-2 mt-3">
@@ -357,20 +477,42 @@ if (!auth.currentUser) {
                 ))}
               </div>
             </div>
+
+            {/* INCLUDES */}
             {/* INCLUDES */}
             <div>
               <h3 className="text-sm font-semibold text-amber-400 mb-3">
                 Includes
               </h3>
 
-              <input
-                placeholder="Type & press Enter (Hotel, Meals, Sightseeing)"
-                value={includeInput}
-                onChange={(e) => setIncludeInput(e.target.value)}
-                onKeyDown={addInclude}
-                className="input"
-              />
+              <div className="flex gap-2">
+                <input
+                  placeholder="Add include (Hotel, Meals...)"
+                  value={includeInput}
+                  onChange={(e) => setIncludeInput(e.target.value)}
+                  onKeyDown={addInclude}
+                  className="input flex-1"
+                />
 
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!includeInput.trim()) return;
+
+                    setFormData({
+                      ...formData,
+                      includes: [...formData.includes, includeInput.trim()],
+                    });
+
+                    setIncludeInput("");
+                  }}
+                  className="bg-emerald-500 px-4 rounded-lg text-black font-semibold"
+                >
+                  Add
+                </button>
+              </div>
+
+              {/* Include Chips */}
               <div className="flex flex-wrap gap-2 mt-3">
                 {formData.includes.map((item, index) => (
                   <span
@@ -391,19 +533,40 @@ if (!auth.currentUser) {
             </div>
 
             {/* EXCLUDES */}
+            {/* EXCLUDES */}
             <div>
               <h3 className="text-sm font-semibold text-amber-400 mb-3">
                 Excludes
               </h3>
 
-              <input
-                placeholder="Type & press Enter (Flights, Personal expenses)"
-                value={excludeInput}
-                onChange={(e) => setExcludeInput(e.target.value)}
-                onKeyDown={addExclude}
-                className="input"
-              />
+              <div className="flex gap-2">
+                <input
+                  placeholder="Add exclude (Flights, Personal...)"
+                  value={excludeInput}
+                  onChange={(e) => setExcludeInput(e.target.value)}
+                  onKeyDown={addExclude}
+                  className="input flex-1"
+                />
 
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!excludeInput.trim()) return;
+
+                    setFormData({
+                      ...formData,
+                      excludes: [...formData.excludes, excludeInput.trim()],
+                    });
+
+                    setExcludeInput("");
+                  }}
+                  className="bg-red-500 px-4 rounded-lg text-white font-semibold"
+                >
+                  Add
+                </button>
+              </div>
+
+              {/* Exclude Chips */}
               <div className="flex flex-wrap gap-2 mt-3">
                 {formData.excludes.map((item, index) => (
                   <span
@@ -516,7 +679,6 @@ if (!auth.currentUser) {
               className="input mt-4"
             />
 
-            
             {/* Available Dates Section */}
             <div className="mt-6">
               <h3 className="text-sm font-semibold text-amber-400 mb-3">

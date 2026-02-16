@@ -17,6 +17,9 @@ const BookingPage = () => {
 
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+
 
   const [form, setForm] = useState({
     name: "",
@@ -53,91 +56,110 @@ const BookingPage = () => {
 
   const total = selectedPrice * form.persons;
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-   const selectedPrice = trip.pricing?.[form.sharingType] || 0;
+  setSubmitting(true); // 🔒 disable button
+  setSuccessMsg(""); // clear old message
 
-   const total = selectedPrice * form.persons;
+  const selectedPrice = trip.pricing?.[form.sharingType] || 0;
+  const total = selectedPrice * form.persons;
 
-   const bookingData = {
-     ...form,
-     persons: Number(form.persons),
-     tourId: id,
-     tourTitle: trip.title,
-     pricePerPerson: selectedPrice,
-     totalPrice: total,
-     createdAt: new Date().toLocaleString(),
-   };
+  const bookingData = {
+    ...form,
+    persons: Number(form.persons),
+    tourId: id,
+    tourTitle: trip.title,
+    pricePerPerson: selectedPrice,
+    totalPrice: total,
+    createdAt: new Date().toLocaleString(),
+  };
 
-   try {
-     // 1️⃣ Save in Firestore
-     await addDoc(collection(db, "bookings"), {
-       ...bookingData,
-       status: "pending",
-       createdAt: serverTimestamp(),
-     });
+  try {
+    // 1️⃣ Save booking
+    await addDoc(collection(db, "bookings"), {
+      ...bookingData,
+      status: "pending",
+      createdAt: serverTimestamp(),
+    });
 
-     // 2️⃣ Send Email to Admin
-     await emailjs.send(
-       import.meta.env.VITE_EMAILJS_SERVICE,
-       import.meta.env.VITE_EMAILJS_TEMPLATE,
-       bookingData,
-       import.meta.env.VITE_EMAILJS_PUBLIC,
-     );
+    // 2️⃣ Send email
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE,
+      import.meta.env.VITE_EMAILJS_TEMPLATE,
+      bookingData,
+      import.meta.env.VITE_EMAILJS_PUBLIC,
+    );
 
-     alert("Booking submitted successfully! Admin has been notified.");
+    // 3️⃣ Show success message
+    setSuccessMsg("Booking successful 🎉 Redirecting to payment...");
 
-     navigate(`/payment/${id}`, {
-       state: { booking: bookingData },
-     });
-   } catch (error) {
-     console.error("Booking Error:", error);
-     alert("Something went wrong!");
-   }
- };
+    // 4️⃣ Redirect after 2 sec
+    setTimeout(() => {
+      navigate(`/payment/${id}`, {
+        state: { booking: bookingData },
+      });
+    }, 2000);
+  } catch (error) {
+    console.error("Booking Error:", error);
+    alert("Something went wrong!");
+    setSubmitting(false); // re-enable button if error
+  }
+};
+
 
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-20">
-      <div className="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-xl">
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Book {trip.title}
+    <div className="relative min-h-screen flex items-center justify-center px-6 py-20 bg-[#f6f8ff] overflow-hidden">
+      {/* 🔵 Floating Shapes */}
+      <div className="absolute w-72 h-72 bg-blue-200 rounded-full top-[-60px] left-[-60px] opacity-40 animate-pulse"></div>
+      <div className="absolute w-60 h-60 bg-pink-200 rounded-full bottom-[-50px] right-[-50px] opacity-40 animate-pulse"></div>
+      <div className="absolute w-32 h-32 bg-yellow-200 rounded-full top-[40%] left-[10%] opacity-30 animate-bounce"></div>
+
+      {/* 🔲 Card */}
+      <div className="relative bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 rounded-3xl p-8 w-full max-w-xl transition-all duration-300 hover:shadow-2xl">
+        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-2">
+          Book Your Trip ✈️
         </h2>
 
+        <p className="text-center text-gray-500 mb-6">{trip.title}</p>
+
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name */}
           <input
             type="text"
             placeholder="Full Name"
             required
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 p-3 rounded-lg outline-none transition"
           />
 
+          {/* Email */}
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email Address"
             required
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 p-3 rounded-lg outline-none transition"
           />
 
+          {/* Phone */}
           <input
             type="tel"
-            placeholder="Phone"
+            placeholder="Phone Number"
             required
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 p-3 rounded-lg outline-none transition"
           />
 
           {/* Sharing Type */}
           <select
             value={form.sharingType}
             onChange={(e) => setForm({ ...form, sharingType: e.target.value })}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 p-3 rounded-lg outline-none transition"
           >
             <option value="single">Single Sharing</option>
             <option value="double">Double Sharing</option>
@@ -150,7 +172,7 @@ const BookingPage = () => {
             min="1"
             value={form.persons}
             onChange={(e) => setForm({ ...form, persons: e.target.value })}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 p-3 rounded-lg outline-none transition"
           />
 
           {/* Date */}
@@ -158,7 +180,7 @@ const BookingPage = () => {
             required
             value={form.selectedDate}
             onChange={(e) => setForm({ ...form, selectedDate: e.target.value })}
-            className="w-full border p-3 rounded-lg"
+            className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 p-3 rounded-lg outline-none transition"
           >
             <option value="">Select Date</option>
             {trip.availableDates?.map((date, i) => (
@@ -168,16 +190,33 @@ const BookingPage = () => {
             ))}
           </select>
 
-          <div className="bg-gray-100 p-4 rounded-lg">
-            <p>Price per person: ₹{selectedPrice}</p>
-            <p className="font-bold text-lg">Total: ₹{total}</p>
+          {/* 💰 Price Card */}
+          <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-xl text-center">
+            <p className="text-gray-600">
+              Price per person:{" "}
+              <span className="font-semibold">₹{selectedPrice}</span>
+            </p>
+            <p className="font-bold text-xl text-indigo-700">Total: ₹{total}</p>
           </div>
 
+          {/* Success Message */}
+          {successMsg && (
+            <p className="text-green-600 text-center font-medium animate-pulse">
+              {successMsg}
+            </p>
+          )}
+
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-full font-semibold hover:bg-indigo-700 transition"
+            disabled={submitting}
+            className={`w-full py-3 rounded-full font-semibold text-lg transition-all duration-300 ${
+              submitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-[1.02]"
+            }`}
           >
-            Proceed to Payment
+            {submitting ? "Processing..." : "Proceed to Payment"}
           </button>
         </form>
       </div>
