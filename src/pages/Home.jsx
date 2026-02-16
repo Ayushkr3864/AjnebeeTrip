@@ -1,5 +1,7 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import Hero from "../components/Hero";
+import EnquiryModal from "../components/EnquiryModal";
+import StickyEnquireBar from "../components/StickyEnquireBar";
 
 /* ==========================
    LAZY LOADED SECTIONS
@@ -19,33 +21,46 @@ const SectionSkeleton = () => (
 );
 
 function Home() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
-      {/* HERO – DO NOT LAZY LOAD */}
-      <Hero />
+      {/* HERO */}
+      <Hero openEnquiry={() => setIsModalOpen(true)} />
 
-      {/* BELOW-THE-FOLD CONTENT */}
+      {/* BELOW THE FOLD */}
       <Suspense fallback={<SectionSkeleton />}>
         <WhyChooseUs />
       </Suspense>
 
       <Suspense fallback={<SectionSkeleton />}>
-        <Popular />
+        <Popular openEnquiry={() => setIsModalOpen(true)} />
       </Suspense>
 
       {/* <Suspense fallback={<SectionSkeleton />}>
         <Destinations />
       </Suspense> */}
+
       <Suspense fallback={<SectionSkeleton />}>
         <Doubt />
       </Suspense>
+
       <Suspense fallback={<SectionSkeleton />}>
         <Testimonial />
       </Suspense>
 
       <Suspense fallback={<SectionSkeleton />}>
-        <CTA />
+        <CTA openEnquiry={() => setIsModalOpen(true)} />
       </Suspense>
+
+      {/* GLOBAL ENQUIRY MODAL */}
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
+      {/* STICKY BOTTOM BAR */}
+      <StickyEnquireBar openEnquiry={() => setIsModalOpen(true)} />
     </>
   );
 }

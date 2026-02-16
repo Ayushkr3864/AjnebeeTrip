@@ -20,6 +20,7 @@ import DestinationDetails from "./pages/DestinationDetails";
 import BookingPage from "./pages/BookingPage"
 import PaymentPage from "./pages/PaymentPage";
 import AdminBookings from "./pages/Admin/AdminBookings";
+import AboutUs from "./pages/AboutUs"
 
 console.log("Firebase Auth:", auth);
 
@@ -90,6 +91,7 @@ function App() {
         <Route path="/trip/:id" element={<TripDetails />} />
         <Route path="/alltrip" element={<AllTrip />} />
         <Route path="/book/:id" element={<BookingPage />} />
+        <Route path="about" element={<AboutUs/>}/>
 
         <Route path="/payment/:id" element={<PaymentPage />} />
 
