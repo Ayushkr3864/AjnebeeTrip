@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Edit2, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   collection,
@@ -207,6 +207,13 @@ export default function AdminTrips() {
                   className="text-red-400 hover:text-red-500"
                 >
                   <Trash2 size={20} />
+                </button>
+                <button
+                  onClick={() => navigate(`/admin/edit-trip/${trip.id}`)}
+                  className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow transition"
+                >
+                  <Edit2 size={18} />
+                  <span>Edit</span>
                 </button>
               </div>
             </div>

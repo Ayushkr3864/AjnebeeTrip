@@ -27,7 +27,6 @@ export default function GiveReviewModal({ onClose, tripId }) {
         contact: form.contact,
         rating,
         review: form.review,
-        approved: false,
         createdAt: serverTimestamp(),
       });
 

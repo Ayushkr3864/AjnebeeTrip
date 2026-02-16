@@ -21,6 +21,7 @@ import BookingPage from "./pages/BookingPage"
 import PaymentPage from "./pages/PaymentPage";
 import AdminBookings from "./pages/Admin/AdminBookings";
 import AboutUs from "./pages/AboutUs"
+import AdminEditTrip from "./pages/Admin/AdminEditTrip"
 
 console.log("Firebase Auth:", auth);
 
@@ -88,10 +89,21 @@ function App() {
             </Protected>
           }
         />
+        <Route
+          path="/admin/edit-trip/:id"
+          element={
+            <Protected>
+              <AdminLayout>
+                <AdminEditTrip />
+              </AdminLayout>
+            </Protected>
+          }
+        />
+
         <Route path="/trip/:id" element={<TripDetails />} />
         <Route path="/alltrip" element={<AllTrip />} />
         <Route path="/book/:id" element={<BookingPage />} />
-        <Route path="about" element={<AboutUs/>}/>
+        <Route path="about" element={<AboutUs />} />
 
         <Route path="/payment/:id" element={<PaymentPage />} />
 

@@ -14,7 +14,7 @@ export default function ReviewsCarousel({ tripId }) {
       const q = query(
         collection(db, "reviews"),
         where("tripId", "==", tripId),
-        where("approved", "==", true),
+        orderBy("createdAt", "desc"),
       );
 
       const snapshot = await getDocs(q);
@@ -87,7 +87,7 @@ export default function ReviewsCarousel({ tripId }) {
                 <Star
                   size={20}
                   className={
-                    i < review.rating
+                    i < (review.rating || 0)
                       ? "fill-yellow-400 text-yellow-400"
                       : "text-gray-300"
                   }

@@ -4,6 +4,7 @@ import {
   getDocs,
   updateDoc,
   deleteDoc,
+  getDoc,
   doc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -13,19 +14,44 @@ const AdminReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      const snapshot = await getDocs(collection(db, "reviews"));
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setReviews(data);
-      setLoading(false);
-    };
+useEffect(() => {
+  const fetchReviews = async () => {
+    const snapshot = await getDocs(collection(db, "reviews"));
 
-    fetchReviews();
-  }, []);
+    const data = await Promise.all(
+      snapshot.docs.map(async (docSnap) => {
+        const reviewData = docSnap.data();
+
+        let tripName = "Unknown Trip";
+
+        if (reviewData.tripId) {
+          try {
+            const tripRef = doc(db, "trips", reviewData.tripId);
+            const tripSnap = await getDoc(tripRef);
+
+            if (tripSnap.exists()) {
+              tripName = tripSnap.data().title;
+            }
+          } catch (err) {
+            console.error("Trip fetch error", err);
+          }
+        }
+
+        return {
+          id: docSnap.id,
+          ...reviewData,
+          tripName,
+        };
+      }),
+    );
+
+    setReviews(data);
+    setLoading(false);
+  };
+
+  fetchReviews();
+}, []);
+
 
   const approveReview = async (id) => {
     await updateDoc(doc(db, "reviews", id), {
@@ -59,7 +85,7 @@ const AdminReviews = () => {
           <p className="text-gray-400">No reviews available</p>
         )}
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {reviews.map((review) => (
             <div
               key={review.id}
@@ -102,27 +128,20 @@ const AdminReviews = () => {
               <p className="text-gray-300 text-sm leading-relaxed mb-6">
                 “{review.review}”
               </p>
+              <p className="text-xs text-indigo-400 mt-1">
+                Trip: {review.tripName}
+              </p>
 
               {/* Actions */}
-              {!review.approved && (
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => approveReview(review.id)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 transition"
-                  >
-                    <CheckCircle size={18} />
-                    Approve
-                  </button>
-
-                  <button
-                    onClick={() => rejectReview(review.id)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition"
-                  >
-                    <XCircle size={18} />
-                    Reject
-                  </button>
-                </div>
-              )}
+              <div className="flex justify-end">
+                <button
+                  onClick={() => rejectReview(review.id)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition"
+                >
+                  <XCircle size={18} />
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
