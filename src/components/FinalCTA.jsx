@@ -42,9 +42,9 @@ const FinalCTA = () => {
             <MessageCircle size={18} /> WhatsApp
           </a>
 
-          <button className="flex items-center gap-3 px-6 py-3 rounded-full bg-blue-600 text-white font-medium">
+          {/* <button className="flex items-center gap-3 px-6 py-3 rounded-full bg-blue-600 text-white font-medium">
             <Calendar size={18} /> Book Now
-          </button>
+          </button> */}
         </div>
       </div>
     </section>

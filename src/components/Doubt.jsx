@@ -1,6 +1,6 @@
 import React from "react";
 
-function Doubt() {
+function Doubt({ openEnquiry }) {
   return (
     <section className="py-16 px-6 flex justify-center bg-gradient-to-br from-sky-50 to-blue-100">
       <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl p-10 text-center">
@@ -16,6 +16,7 @@ function Doubt() {
 
         <button
           type="button"
+          onClick={openEnquiry} // 🔥 This opens the modal
           className="
             px-8 py-3 rounded-full text-white font-semibold
             bg-gradient-to-r from-blue-500 to-green-500

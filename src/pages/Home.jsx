@@ -42,7 +42,7 @@ function Home() {
       </Suspense> */}
 
       <Suspense fallback={<SectionSkeleton />}>
-        <Doubt />
+        <Doubt openEnquiry={() => setIsModalOpen(true)} />
       </Suspense>
 
       <Suspense fallback={<SectionSkeleton />}>

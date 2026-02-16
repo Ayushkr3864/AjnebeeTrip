@@ -98,12 +98,8 @@ const Footer = () => {
               <Link>About Us</Link>
             </li>
             <li className="hover:text-white cursor-pointer">
-              <Link to="#Destination">Destinations</Link>
+              <a href="tel:+9198119 53565">Contact</a>
             </li>
-            <li className="hover:text-white cursor-pointer">
-              <Link to="popular">Packages</Link>
-            </li>
-            <li className="hover:text-white cursor-pointer">Contact</li>
           </ul>
         </div>
 
@@ -167,14 +163,14 @@ const Footer = () => {
               <FaFacebookF className="text-white text-lg" />
             </a>
 
-            <a
+            {/* <a
               href="https://twitter.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 rounded-full bg-white/10 hover:bg-emerald-500 transition"
             >
               <FaTwitter className="text-white text-lg" />
-            </a>
+            </a> */}
 
             <a
               href="https://www.youtube.com/"
