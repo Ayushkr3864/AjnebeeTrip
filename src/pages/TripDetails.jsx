@@ -434,21 +434,21 @@ const [activeDay, setActiveDay] = useState(null);
             </thead>
             <tbody className="bg-white">
               <tr className="border-t border-gray-200">
-                <td className="p-4 font-medium text-gray-700">Single</td>
+                <td className="p-4 font-medium text-gray-700">Quad</td>
                 <td className="p-4 text-right font-bold text-gray-800">
-                  ₹{trip.pricing?.single}
-                </td>
-              </tr>
-              <tr className="border-t border-gray-200">
-                <td className="p-4 font-medium text-gray-700">Double</td>
-                <td className="p-4 text-right font-bold text-gray-800">
-                  ₹{trip.pricing?.double}
+                  ₹{trip.pricing?.quad}
                 </td>
               </tr>
               <tr className="border-t border-gray-200">
                 <td className="p-4 font-medium text-gray-700">Triple</td>
                 <td className="p-4 text-right font-bold text-gray-800">
                   ₹{trip.pricing?.triple}
+                </td>
+              </tr>
+              <tr className="border-t border-gray-200">
+                <td className="p-4 font-medium text-gray-700">Double</td>
+                <td className="p-4 text-right font-bold text-gray-800">
+                  ₹{trip.pricing?.double}
                 </td>
               </tr>
             </tbody>

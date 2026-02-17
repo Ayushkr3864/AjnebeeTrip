@@ -221,9 +221,9 @@ const handleSubmit = async (e) => {
     image: imageURL,
 
     pricing: {
-      single: Number(formData.pricing.single),
-      double: Number(formData.pricing.double),
+      quad: Number(formData.pricing.quad),
       triple: Number(formData.pricing.triple),
+      double: Number(formData.pricing.double),
     },
 
     availableDates: formData.availableDates,
@@ -415,15 +415,7 @@ if (!auth.currentUser) {
               />
             )}
 
-            {/* {imagePreview && (
-          <img
-            src={imagePreview}
-            alt="Preview"
-            className="mt-3 h-40 w-full object-cover rounded-lg border border-white/10"
-          />
-        )} */}
 
-            {/* TAGS */}
             <div>
               <h3 className="text-sm font-semibold text-amber-400 mb-3">
                 Tags
@@ -531,8 +523,6 @@ if (!auth.currentUser) {
                 ))}
               </div>
             </div>
-
-            {/* EXCLUDES */}
             {/* EXCLUDES */}
             <div>
               <h3 className="text-sm font-semibold text-amber-400 mb-3">
@@ -623,30 +613,14 @@ if (!auth.currentUser) {
             <div className="grid md:grid-cols-3 gap-4">
               <input
                 type="number"
-                placeholder="Single Sharing"
-                value={formData.pricing.single}
+                placeholder="Quad Sharing"
+                value={formData.pricing.quad}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
                     pricing: {
                       ...formData.pricing,
-                      single: e.target.value,
-                    },
-                  })
-                }
-                className="input"
-              />
-
-              <input
-                type="number"
-                placeholder="Double Sharing"
-                value={formData.pricing.double}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    pricing: {
-                      ...formData.pricing,
-                      double: e.target.value,
+                      quad: e.target.value,
                     },
                   })
                 }
@@ -663,6 +637,22 @@ if (!auth.currentUser) {
                     pricing: {
                       ...formData.pricing,
                       triple: e.target.value,
+                    },
+                  })
+                }
+                className="input"
+              />
+
+              <input
+                type="number"
+                placeholder="Double Sharing"
+                value={formData.pricing.double}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    pricing: {
+                      ...formData.pricing,
+                      double: e.target.value,
                     },
                   })
                 }

@@ -2,7 +2,7 @@ import React from "react";
 
 function Doubt({ openEnquiry }) {
   return (
-    <section className="py-16 px-6 flex justify-center bg-gradient-to-br from-sky-50 to-blue-100">
+    <section className="py-16 px-6 flex justify-center  bg-linear-to-r from-sky-50 to-blue-100">
       <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl p-10 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
           In Doubt? Can't Decide?
@@ -16,10 +16,10 @@ function Doubt({ openEnquiry }) {
 
         <button
           type="button"
-          onClick={openEnquiry} // 🔥 This opens the modal
+          onClick={openEnquiry}
           className="
             px-8 py-3 rounded-full text-white font-semibold
-            bg-gradient-to-r from-blue-500 to-green-500
+            bg-linear-to-r from-blue-500 to-green-500
             hover:from-blue-600 hover:to-green-600
             transition-all duration-300
             shadow-md hover:shadow-lg

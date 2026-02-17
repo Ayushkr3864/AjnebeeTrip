@@ -47,8 +47,8 @@ export default function GiveReviewModal({ onClose, tripId }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-hidden">
       {/* 🔵 floating shapes */}
-      <div className="absolute w-60 h-60 bg-blue-200 rounded-full top-[-40px] left-[-40px] opacity-40 animate-pulse"></div>
-      <div className="absolute w-40 h-40 bg-indigo-200 rounded-full bottom-[-30px] right-[-30px] opacity-40 animate-bounce"></div>
+      <div className="absolute w-60 h-60 bg-blue-200 rounded-full -top-10 -left-10 opacity-40 animate-pulse"></div>
+      <div className="absolute w-40 h-40 bg-indigo-200 rounded-full -bottom-7.5 -right-7.5 opacity-40 animate-bounce"></div>
 
       {/* 🧊 Modal Card */}
       <motion.div

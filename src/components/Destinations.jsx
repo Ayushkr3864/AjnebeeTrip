@@ -190,10 +190,10 @@ const Destinations = () => {
               <motion.div
                 key={item.id}
                 variants={fadeUp}
-                className="group relative rounded-3xl overflow-hidden min-w-[280px]"
+                className="group relative rounded-3xl overflow-hidden min-w-70"
               >
                 {/* IMAGE */}
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-4/3 overflow-hidden">
                   <img
                     src={item.imageUrl}
                     alt={item.name}
