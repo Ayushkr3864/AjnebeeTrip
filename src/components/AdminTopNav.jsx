@@ -44,9 +44,6 @@ export default function AdminTopNav() {
           <NavLink to="/admin/feedback" className={navItemClass}>
             <MessageSquare size={16} /> Feedback
           </NavLink>
-          {/* <NavLink to="/admin/add-destination" className={navItemClass}>
-            <RouteIcon size={16} /> Add Destination
-          </NavLink> */}
           <NavLink to="/admin/bookings" className={navItemClass}>
             <CalendarCheck size={16} /> View Bookings
           </NavLink>
@@ -93,13 +90,6 @@ export default function AdminTopNav() {
           >
             <MessageSquare size={16} /> Feedback
           </NavLink>
-          {/* <NavLink
-            to="/admin/add-destination"
-            onClick={() => setMobileOpen(false)}
-            className={navItemClass}
-          >
-            <RouteIcon size={16} /> Add destination
-          </NavLink> */}
           <NavLink to="/admin/bookings" className={navItemClass}>
             <CalendarCheck size={16} /> View Bookings
           </NavLink>

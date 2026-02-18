@@ -31,10 +31,21 @@ const slideUpItem = {
   },
 };
 
+
+
 const HeroSection = () => {
   const videoRef = useRef(null);
   const [showWarning, setShowWarning] = useState(true);
   const [showToast, setShowToast] = useState(true);
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowVideo(true);
+    }, 2500); // load video after 2.5s
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -65,18 +76,30 @@ const HeroSection = () => {
           }
         `}
       </style>
-      <Navbar/>
-      <section className="relative h-screen w-full overflow-hidden text-white">
+      <Navbar />
+      <section className="relative h-screen w-full mt-15 overflow-hidden text-white">
         {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        {/* Background Image (loads instantly) */}
+        <img
+          src="/hero-poster.webp"
+          alt="Ajnabee Trip"
           className="absolute w-full h-full object-cover"
-        >
-          <source src="/hero-video.mp4" type="video/mp4" />
-        </video>
+          loading="eager"
+          fetchPriority="high"
+        />
+
+        {/* Background Video (loads later) */}
+        {showVideo && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute w-full h-full object-cover"
+          >
+            <source src="/hero-video.webm" type="video/webm" />
+          </video>
+        )}
 
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />

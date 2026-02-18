@@ -182,8 +182,7 @@ const Destinations = () => {
               sm:grid-cols-2
               lg:grid-cols-3
               overflow-x-auto
-              lg:overflow-visible
-            "
+              lg:overflow-visible"
             style={{ scrollbarWidth: "none" }}
           >
             {destinations.map((item) => (
