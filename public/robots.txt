@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap:https://ajnabeetrip.vercel.app/sitemap.xml
