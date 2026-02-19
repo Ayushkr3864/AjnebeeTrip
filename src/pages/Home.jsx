@@ -2,6 +2,7 @@ import React, { Suspense, useState } from "react";
 import Hero from "../components/Hero";
 import EnquiryModal from "../components/EnquiryModal";
 import StickyEnquireBar from "../components/StickyEnquireBar";
+import MobileContactButtons from "../components/MobileContactButtons";
 
 /* ==========================
    LAZY LOADED SECTIONS
@@ -22,6 +23,8 @@ const SectionSkeleton = () => (
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
 
   return (
     <>
@@ -61,6 +64,9 @@ function Home() {
 
       {/* STICKY BOTTOM BAR */}
       <StickyEnquireBar openEnquiry={() => setIsModalOpen(true)} />
+      {/* <>
+        <MobileContactButtons onEnquireClick={() => setOpenModal(true)} />
+      </> */}
     </>
   );
 }

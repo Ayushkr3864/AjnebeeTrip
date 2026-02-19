@@ -9,18 +9,34 @@ export default function ReviewsCarousel({ tripId }) {
   const [index, setIndex] = useState(0);
   const [showPopup, setShowPopup] = useState(false); // success popup
 
+  // 🎨 Generate color based on user name
+  const getAvatarColor = (name = "") => {
+    const colors = [
+      "bg-blue-500",
+      "bg-indigo-500",
+      "bg-green-500",
+      "bg-pink-500",
+      "bg-purple-500",
+      "bg-orange-500",
+      "bg-teal-500",
+    ];
+
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return colors[Math.abs(hash) % colors.length];
+  };
+
   useEffect(() => {
     const fetchReviews = async () => {
-      const q = query(
-        collection(db, "reviews"),
-        where("tripId", "==", tripId),
-      );
+      const q = query(collection(db, "reviews"), where("tripId", "==", tripId));
 
       const snapshot = await getDocs(q);
       const data = snapshot.docs.map((doc) => doc.data());
       setReviews(data);
-      console.log("review",data);
-      
+      console.log("review", data);
     };
 
     fetchReviews();
@@ -76,6 +92,23 @@ export default function ReviewsCarousel({ tripId }) {
           transition={{ duration: 0.5 }}
           className="relative bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 rounded-3xl p-10 text-center max-w-2xl mx-auto"
         >
+          {/* 👤 User Avatar */}
+          <div className="flex justify-center mb-4">
+            {review.photo ? (
+              <img
+                src={review.photo}
+                alt={review.name}
+                className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
+              />
+            ) : (
+              <div
+                className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md ${getAvatarColor(review.name)}`}
+              >
+                {review.name?.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+
           {/* ⭐ Stars */}
           <div className="flex justify-center gap-1 mb-4">
             {[...Array(5)].map((_, i) => (
@@ -116,7 +149,7 @@ export default function ReviewsCarousel({ tripId }) {
             initial={{ opacity: 0, y: -40, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -40 }}
-            className="absolute top-5 left-1/2 -translate-x-1/2 bg-white shadow-lg border px-6 py-3 rounded-full text-green-600 font-semibold"
+            className="absolute top-5 left-1/2 -translate-x-1/2 bg-white shadow-lg border md:px-6 w-[200px] py-3 rounded-full text-green-600 font-semibold"
           >
             ✨ New Review Loaded
           </motion.div>

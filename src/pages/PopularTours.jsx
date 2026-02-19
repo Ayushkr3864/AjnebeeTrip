@@ -9,61 +9,7 @@ import {useNavigate } from "react-router-dom"
 /* =======================
    TOUR DATA
 ======================= */
-// const tours = [
-//   {
-//     title: "Himalayan Escape",
-//     location: "Himachal • Uttarakhand",
-//     duration: "7 Days / 6 Nights",
-//     price: "From ₹11,999/-",
-//     tag: "Popular",
-//     image: "/Himachal.jpeg",
-//   },
-//   {
-//     title: "Goa Coastal Bliss",
-//     location: "Goa",
-//     duration: "5 Days / 4 Nights",
-//     price: "From ₹9,499/-",
-//     tag: "Best Seller",
-//     image: "/Goa.jpeg",
-//   },
-//   {
-//     title: "Royal Rajasthan",
-//     location: "Jaipur • Jodhpur • Udaipur",
-//     duration: "6 Days / 5 Nights",
-//     price: "From ₹6,999/-",
-//     tag: "New",
-//     image: "/Rajasthan.jpeg",
-//   },
 
-//   {
-//     title: "Kerala Backwater Retreat",
-//     location: "Alleppey • Munnar • Kochi",
-//     duration: "6 Days / 5 Nights",
-//     price: "From ₹22,999/-",
-//     tag: "Relaxing",
-//     image: "/Kerala.jpeg",
-//   },
-//   {
-//     title: "Kashmir Paradise Tour",
-//     location: "Srinagar • Gulmarg • Pahalgam",
-//     duration: "5 Days / 4 Nights",
-//     price: "From ₹14,999/-",
-//     tag: "Trending",
-//     image: "https://images.unsplash.com/photo-1548013146-72479768bada",
-//   },
-//   {
-//     title: "Andaman Island Getaway",
-//     location: "Port Blair • Havelock",
-//     duration: "5 Days / 4 Nights",
-//     price: "From ₹22,999/-",
-//     tag: "Premium",
-//     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-//   },
-// ];
-
-/* =======================
-   ANIMATIONS
-======================= */
 const container = {
   hidden: {},
   visible: {
@@ -113,29 +59,52 @@ const PopularTours = () => {
   // }, [isHovered]);
 
   useEffect(() => {
-    const fetchTrips = async () => {
-      try {
-        const q = query(
-          collection(db, "trips"),
-          orderBy("createdAt", "desc")
-        );
+   const fetchTrips = async () => {
+     try {
+       const q = query(collection(db, "trips"), orderBy("createdAt", "desc"));
+       const snapshot = await getDocs(q);
 
-        const snapshot = await getDocs(q);
+       const tripsData = snapshot.docs.map((doc) => ({
+         id: doc.id,
+         ...doc.data(),
+       }));
 
-        const tripsData = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+       // 🔥 Fetch all reviews
+       const reviewSnapshot = await getDocs(collection(db, "reviews"));
+       const reviews = reviewSnapshot.docs.map((doc) => doc.data());
 
-        setTours(tripsData);
-        console.log("popular tripsData",tripsData);
-        
-      } catch (error) {
-        console.error("Error fetching trips:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+       // 🔥 Calculate average rating per trip
+       const ratingMap = {};
+
+       reviews.forEach((review) => {
+         const tripId = review.tripId;
+         if (!ratingMap[tripId]) {
+           ratingMap[tripId] = { total: 0, count: 0 };
+         }
+
+         ratingMap[tripId].total += review.rating;
+         ratingMap[tripId].count += 1;
+       });
+
+       // 🔥 Attach rating to each trip
+       const tripsWithRatings = tripsData.map((trip) => {
+         const data = ratingMap[trip.id];
+
+         return {
+           ...trip,
+           rating: data ? (data.total / data.count).toFixed(1) : null,
+           reviewCount: data ? data.count : 0,
+         };
+       });
+
+       setTours(tripsWithRatings);
+     } catch (error) {
+       console.error("Error fetching trips:", error);
+     } finally {
+       setLoading(false);
+     }
+   };
+
 
     fetchTrips();
   }, []);
@@ -331,6 +300,7 @@ const handleScroll = () => {
                     }}
                   >
                     {/* IMAGE */}
+                    {/* IMAGE */}
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <img
                         src={tour.image}
@@ -338,11 +308,26 @@ const handleScroll = () => {
                         className="absolute inset-0 h-full w-full object-cover"
                       />
 
-                      {tour.tag && (
-                        <span className="absolute top-4 left-4 px-4 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-sky-500 to-green-500 text-white">
-                          {tour.tag}
+                      {/* LEFT TAG */}
+                      {tour.tags && (
+                        <span className="absolute top-4 left-4 px-4 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-sky-500 to-green-500 text-white shadow">
+                          {tour.tags[0]}
                         </span>
                       )}
+
+                      {/* RIGHT RATING */}
+                      {/* RIGHT RATING */}
+                      <div className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-sm font-semibold shadow">
+                        ⭐
+                        <span>
+                          {tour.rating ? tour.rating : "New"}
+                          {tour.reviewCount > 0 && (
+                            <span className="text-xs text-gray-500 ml-1">
+                              ({tour.reviewCount})
+                            </span>
+                          )}
+                        </span>
+                      </div>
                     </div>
 
                     {/* CONTENT */}
@@ -360,7 +345,9 @@ const handleScroll = () => {
 
                       <div className="mt-6 flex items-center justify-between">
                         <div>
-                          <p className="text-[15px] font-bold text-gray-900 ">Starting From</p>
+                          <p className="text-[15px] font-bold text-gray-900 ">
+                            Starting From
+                          </p>
                           <span className="text-lg font-bold text-sky-500">
                             ₹
                             {tour.pricing?.single ??
