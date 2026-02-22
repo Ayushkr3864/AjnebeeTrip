@@ -350,9 +350,9 @@ const handleScroll = () => {
                           </p>
                           <span className="text-lg font-bold text-sky-500">
                             ₹
-                            {tour.pricing?.single ??
-                              tour.pricing?.double ??
+                            {tour.pricing?.quad ??
                               tour.pricing?.triple ??
+                              tour.pricing?.double ??
                               "N/A"}
                           </span>
                         </div>

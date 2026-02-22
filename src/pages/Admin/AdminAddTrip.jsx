@@ -54,22 +54,23 @@ const [imageFile, setImageFile] = useState(null);
 const [imagePreview, setImagePreview] = useState(null);
 const [includeInput, setIncludeInput] = useState("");
 const [excludeInput, setExcludeInput] = useState("");
-const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1);
+  const [descInput, setDescInput] = useState("");
 
 
 const [formData, setFormData] = useState({
   title: "",
   location: "",
   duration: "",
-  description: "",
+ description: [] ,  // array of points
   status: "Active",
   itineraryLink: "",
   deschead:"",
 
   pricing: {
-    single: "",
-    double: "",
+    quad: "",
     triple: "",
+    double: "",
   },
 
   availableDates: [],
@@ -77,6 +78,23 @@ const [formData, setFormData] = useState({
   includes: [],
   excludes: [],
 });
+  const addDescriptionPoint = (e) => {
+    if (e.key === "Enter" && descInput.trim()) {
+      e.preventDefault();
+      setFormData({
+        ...formData,
+        description: [...formData.description, descInput.trim()],
+      });
+      setDescInput("");
+    }
+  };
+
+  const removeDescriptionPoint = (point) => {
+    setFormData({
+      ...formData,
+      description: formData.description.filter((d) => d !== point),
+    });
+  };
   const [dayInput, setDayInput] = useState({
     title: "",
     description: "",
@@ -323,23 +341,69 @@ if (!auth.currentUser) {
                   onChange={handleChange}
                   className="input"
                 />
+                <input
+                  name="deschead"
+                  placeholder="Description heading"
+                  value={formData.deschead}
+                  onChange={handleChange}
+                  className="input"
+                />
               </div>
-              <input
-                name="deschead"
-                placeholder="Description heading"
-                value={formData.deschead}
-                onChange={handleChange}
-                className="input"
-              />
 
-              <textarea
-                name="description"
-                placeholder="Trip Description"
-                value={formData.description}
-                onChange={handleChange}
-                rows={4}
-                className="input mt-4"
-              />
+              <div className="mt-4">
+                <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                  Trip Highlights / Description Points
+                </h3>
+
+                <div className="flex gap-2">
+                  <input
+                    placeholder="Add point (Bonfire, Trek, Stay...)"
+                    value={descInput}
+                    onChange={(e) => setDescInput(e.target.value)}
+                    onKeyDown={addDescriptionPoint}
+                    className="input flex-1"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!descInput.trim()) return;
+
+                      setFormData({
+                        ...formData,
+                        description: [
+                          ...formData.description,
+                          descInput.trim(),
+                        ],
+                      });
+
+                      setDescInput("");
+                    }}
+                    className="bg-indigo-500 px-4 rounded-lg text-white font-semibold"
+                  >
+                    Add
+                  </button>
+                </div>
+
+                {/* Points list */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {formData.description.map((point, index) => (
+                    <span
+                      key={index}
+                      className="flex items-center gap-1 bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-sm font-semibold"
+                    >
+                      {point}
+                      <button
+                        type="button"
+                        onClick={() => removeDescriptionPoint(point)}
+                        className="hover:text-white"
+                      >
+                        <X size={14} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
             {/* DAY WISE ITINERARY */}
             <div className="mt-6">

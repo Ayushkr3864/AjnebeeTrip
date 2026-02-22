@@ -32,7 +32,6 @@ const AllTrip = () => {
     const fetchTrips = async () => {
       try {
         const q = query(collection(db, "trips"), orderBy("createdAt", "desc"));
-
         const snapshot = await getDocs(q);
 
         const tripsData = snapshot.docs.map((doc) => ({
@@ -40,8 +39,35 @@ const AllTrip = () => {
           ...doc.data(),
         }));
 
-        setTours(tripsData);
-        console.log("popular tripsData", tripsData);
+        // 🔥 Fetch all reviews
+        const reviewSnapshot = await getDocs(collection(db, "reviews"));
+        const reviews = reviewSnapshot.docs.map((doc) => doc.data());
+
+        // 🔥 Calculate average rating per trip
+        const ratingMap = {};
+
+        reviews.forEach((review) => {
+          const tripId = review.tripId;
+          if (!ratingMap[tripId]) {
+            ratingMap[tripId] = { total: 0, count: 0 };
+          }
+
+          ratingMap[tripId].total += review.rating;
+          ratingMap[tripId].count += 1;
+        });
+
+        // 🔥 Attach rating to each trip
+        const tripsWithRatings = tripsData.map((trip) => {
+          const data = ratingMap[trip.id];
+
+          return {
+            ...trip,
+            rating: data ? (data.total / data.count).toFixed(1) : null,
+            reviewCount: data ? data.count : 0,
+          };
+        });
+
+        setTours(tripsWithRatings);
       } catch (error) {
         console.error("Error fetching trips:", error);
       } finally {
@@ -156,29 +182,30 @@ const AllTrip = () => {
                   <img
                     src={tour.image}
                     alt={tour.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
 
-                  {/* TAG BADGE */}
-                  {tour.tag && (
-                    <motion.span
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                      className="absolute top-4 left-4 px-4 py-1 rounded-full text-xs font-semibold tracking-wide"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, var(--accent-main), var(--accent-sharp))",
-                        color: "white",
-                      }}
-                    >
-                      {tour.tag}
-                    </motion.span>
+                  {/* LEFT TAG */}
+                  {tour.tags && (
+                    <span className="absolute top-4 left-4 px-4 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-sky-500 to-green-500 text-white shadow">
+                      {tour.tags[0]}
+                    </span>
                   )}
-                </div>
 
+                  {/* RIGHT RATING */}
+                  {/* RIGHT RATING */}
+                  <div className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-sm font-semibold shadow">
+                    ⭐
+                    <span>
+                      {tour.rating ? tour.rating : "New"}
+                      {tour.reviewCount > 0 && (
+                        <span className="text-xs text-gray-500 ml-1">
+                          ({tour.reviewCount})
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                </div>
                 {/* CONTENT */}
                 <div className="p-6">
                   <h3

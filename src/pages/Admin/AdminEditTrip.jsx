@@ -49,18 +49,27 @@ export default function AdminEditTrip() {
     title: "",
     location: "",
     duration: "",
-    description: "",
+    description: [],
     status: "Active",
     itineraryLink: "",
-    pricing: { single: "", double: "", triple: "" },
+    pricing: { quad: "", triple: "", double: "" },
     availableDates: [],
     tags: [],
     includes: [],
     excludes: [],
+    deschead: "",
   });
+  
 
   const [dayInput, setDayInput] = useState({ title: "", description: "" });
   const [itineraryDays, setItineraryDays] = useState([]);
+  const [descInput, setDescInput] = useState("");
+  const removeDescriptionPoint = (point) => {
+    setFormData({
+      ...formData,
+      description: formData.description.filter((d) => d !== point),
+    });
+  };
 
   /* ================= FETCH TRIP ================= */
   useEffect(() => {
@@ -76,13 +85,18 @@ export default function AdminEditTrip() {
             title: data.title || "",
             location: data.location || "",
             duration: data.duration || "",
-            description: data.description || "",
+            description: Array.isArray(data.description)
+              ? data.description
+              : data.description
+                ? [data.description]
+                : [],
             status: data.status || "Active",
             itineraryLink: data.itineraryLink || "",
+            deschead: data.deschead || "",
             pricing: {
-              single: data.pricing?.single || "",
-              double: data.pricing?.double || "",
+              quad: data.pricing?.quad || "",
               triple: data.pricing?.triple || "",
+              diuble: data.pricing?.double || "",
             },
             availableDates: data.availableDates || [],
             tags: data.tags || [],
@@ -205,11 +219,12 @@ export default function AdminEditTrip() {
         location: formData.location.trim(),
         duration: formData.duration,
         description: formData.description,
+        deschead:formData.deschead,
         image: imageURL,
         pricing: {
-          single: Number(formData.pricing.single),
-          double: Number(formData.pricing.double),
+          quad: Number(formData.pricing.quad),
           triple: Number(formData.pricing.triple),
+          double: Number(formData.pricing.double),
         },
         availableDates: formData.availableDates,
         itineraryLink: formData.itineraryLink.trim(),
@@ -290,16 +305,81 @@ export default function AdminEditTrip() {
                   onChange={handleChange}
                   className="input"
                 />
+                <input
+                  name="deschead"
+                  placeholder="Description heading"
+                  value={formData.deschead}
+                  onChange={handleChange}
+                  className="input"
+                />
               </div>
 
-              <textarea
-                name="description"
-                placeholder="Trip Description"
-                value={formData.description}
-                onChange={handleChange}
-                rows={4}
-                className="input mt-4"
-              />
+              <div className="mt-4">
+                <h3 className="text-sm font-semibold text-amber-400 mb-3">
+                  Trip Highlights / Description Points
+                </h3>
+
+                <div className="flex gap-2">
+                  <input
+                    placeholder="Add point (Bonfire, Trek, Stay...)"
+                    value={descInput}
+                    onChange={(e) => setDescInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && descInput.trim()) {
+                        e.preventDefault();
+                        setFormData({
+                          ...formData,
+                          description: [
+                            ...formData.description,
+                            descInput.trim(),
+                          ],
+                        });
+                        setDescInput("");
+                      }
+                    }}
+                    className="input flex-1"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!descInput.trim()) return;
+
+                      setFormData({
+                        ...formData,
+                        description: [
+                          ...formData.description,
+                          descInput.trim(),
+                        ],
+                      });
+
+                      setDescInput("");
+                    }}
+                    className="bg-indigo-500 px-4 rounded-lg text-white font-semibold"
+                  >
+                    Add
+                  </button>
+                </div>
+
+                {/* Points list */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {formData.description.map((point, index) => (
+                    <span
+                      key={index}
+                      className="flex items-center gap-1 bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-sm font-semibold"
+                    >
+                      {point}
+                      <button
+                        type="button"
+                        onClick={() => removeDescriptionPoint(point)}
+                        className="hover:text-white"
+                      >
+                        <X size={14} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
             {/* DAY WISE ITINERARY */}
             <div className="mt-6">
@@ -592,30 +672,14 @@ export default function AdminEditTrip() {
             <div className="grid md:grid-cols-3 gap-4">
               <input
                 type="number"
-                placeholder="Single Sharing"
-                value={formData.pricing.single}
+                placeholder="quad Sharing"
+                value={formData.pricing.quad}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
                     pricing: {
                       ...formData.pricing,
-                      single: e.target.value,
-                    },
-                  })
-                }
-                className="input"
-              />
-
-              <input
-                type="number"
-                placeholder="Double Sharing"
-                value={formData.pricing.double}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    pricing: {
-                      ...formData.pricing,
-                      double: e.target.value,
+                      quad: e.target.value,
                     },
                   })
                 }
@@ -632,6 +696,22 @@ export default function AdminEditTrip() {
                     pricing: {
                       ...formData.pricing,
                       triple: e.target.value,
+                    },
+                  })
+                }
+                className="input"
+              />
+
+              <input
+                type="number"
+                placeholder="Double Sharing"
+                value={formData.pricing.double}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    pricing: {
+                      ...formData.pricing,
+                      double: e.target.value,
                     },
                   })
                 }

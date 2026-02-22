@@ -157,7 +157,7 @@ const [activeDay, setActiveDay] = useState(null);
           >
             <p className="text-sm text-gray-500 mb-2">💰 Starting Price</p>
             <p className="font-bold text-2xl text-yellow-600">
-              ₹{trip.pricing?.single || trip.pricing?.double}
+              ₹{trip.pricing?.quad || trip.pricing?.triple}
             </p>
           </motion.div>
 
@@ -181,10 +181,21 @@ const [activeDay, setActiveDay] = useState(null);
         >
           <div className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl p-6 border border-white/50">
             <h3 className="text-lg font-semibold text-indigo-600 mb-2">
-              🧾 Trip Overview
+              {trip?.deschead}
             </h3>
 
-            <p className="text-gray-700 leading-relaxed">{trip.description}</p>
+            <ul className="mt-3 space-y-2 text-gray-700">
+              {Array.isArray(trip.description) ? (
+                trip.description.map((point, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <span className="text-indigo-500 mt-1">•</span>
+                    <span>{point}</span>
+                  </li>
+                ))
+              ) : (
+                <li>{trip.description}</li> // fallback if old data exists
+              )}
+            </ul>
           </div>
         </motion.div>
       </motion.section>

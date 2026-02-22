@@ -101,6 +101,7 @@ export default function AdminTrips() {
                 <p className="text-gray-400">📍 {trip.location}</p>
 
                 <p className="text-gray-400">⏳ {trip.duration}</p>
+                <h1 className="font-bold">{ trip?.deschead}</h1>
 
                 <p className="text-gray-300">{trip.description}</p>
 
@@ -108,13 +109,13 @@ export default function AdminTrips() {
                 {trip.pricing && (
                   <div className="flex flex-wrap gap-4 text-sm mt-3">
                     <span className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full">
-                      Single: ₹{trip.pricing.single}
+                      Quad: ₹{trip.pricing.quad}
                     </span>
                     <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full">
-                      Double: ₹{trip.pricing.double}
+                      Triple: ₹{trip.pricing.triple}
                     </span>
                     <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full">
-                      Triple: ₹{trip.pricing.triple}
+                      Double: ₹{trip.pricing.double}
                     </span>
                   </div>
                 )}
