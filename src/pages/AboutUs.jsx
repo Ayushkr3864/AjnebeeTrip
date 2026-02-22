@@ -744,6 +744,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -1061,6 +1062,14 @@ export default function AjnabeeTrip() {
                     Trusted Community
                   </span>
                 </h2>
+                <FadeUp delay={0.2}>
+                  <p className="text-slate-600 font-body text-base leading-relaxed mb-4">
+                    Hum sabki zindagi mein wo ek WhatsApp group hota hai jo sirf
+                    'Plans' banane ke liye banta hai aur 'Blue Ticks' ke bojh
+                    tale dab kar khatam ho jaata hai. AjnabeeTrip ki shuruwat
+                    bhi wahi se hui.
+                  </p>
+                </FadeUp>
               </FadeUp>
               <FadeUp delay={0.2}>
                 <p className="text-slate-600 font-body text-base leading-relaxed mb-4">
@@ -1304,6 +1313,22 @@ export default function AjnabeeTrip() {
                     ko India ke most loved youth travel community mein badal
                     diya. 🌏
                   </p>
+                  {/* Social Icons */}
+                  <div className="mt-6 flex items-center gap-4">
+                    <a
+                      href="#"
+                      className="w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow-md hover:scale-110 transition"
+                    >
+                      <FaInstagram />
+                    </a>
+
+                    <a
+                      href="#"
+                      className="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 text-white shadow-md hover:scale-110 transition"
+                    >
+                      <FaWhatsapp />
+                    </a>
+                  </div>
                   <div className="mt-6 flex items-center gap-3">
                     <div className="h-px bg-sky-200 flex-1" />
                     <span className="text-sky-400 font-heading font-semibold text-sm">
@@ -1428,6 +1453,22 @@ export default function AjnabeeTrip() {
                           </span>{" "}
                           de diya.
                         </p>
+                        {/* Social Icons */}
+                        <div className="pt-4 flex items-center gap-4">
+                          <a
+                            href="#"
+                            className="w-9 h-9 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow hover:scale-110 transition"
+                          >
+                            <FaInstagram />
+                          </a>
+
+                          <a
+                            href="#"
+                            className="w-9 h-9 flex items-center justify-center rounded-full bg-green-500 text-white shadow hover:scale-110 transition"
+                          >
+                            <FaWhatsapp />
+                          </a>
+                        </div>
 
                         <p className="font-semibold text-slate-700">
                           Aur bas, wahin se AjnabeeTrip ko uska doosra pillar
