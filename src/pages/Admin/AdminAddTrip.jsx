@@ -64,6 +64,7 @@ const [formData, setFormData] = useState({
   description: "",
   status: "Active",
   itineraryLink: "",
+  deschead:"",
 
   pricing: {
     single: "",
@@ -218,6 +219,7 @@ const handleSubmit = async (e) => {
     location: formData.location.trim(),
     duration: formData.duration,
     description: formData.description,
+    deschead:formData.deschead,
     image: imageURL,
 
     pricing: {
@@ -322,6 +324,13 @@ if (!auth.currentUser) {
                   className="input"
                 />
               </div>
+              <input
+                name="deschead"
+                placeholder="Description heading"
+                value={formData.deschead}
+                onChange={handleChange}
+                className="input"
+              />
 
               <textarea
                 name="description"
@@ -414,7 +423,6 @@ if (!auth.currentUser) {
                 className="mt-3 h-40 w-full object-cover rounded-lg border border-white/10"
               />
             )}
-
 
             <div>
               <h3 className="text-sm font-semibold text-amber-400 mb-3">

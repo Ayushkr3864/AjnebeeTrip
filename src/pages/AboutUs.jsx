@@ -1547,21 +1547,19 @@ export default function AjnabeeTrip() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {captains.map((c, i) => (
                 <FadeUp key={c.name} delay={(i % 3) * 0.12}>
-                  <div className="bg-white rounded-3xl overflow-hidden shadow-md border border-sky-100 card-hover cursor-default group">
+                  <div
+                    className="bg-white rounded-3xl overflow-hidden shadow-md border border-sky-100 card-hover cursor-default group"
+                    onClick={() => setActiveIndex(activeIndex === i ? null : i)}
+                  >
                     {/* Photo Banner */}
-                    <div
-                      className="relative h-48 overflow-hidden bg-gradient-to-br from-sky-100 to-blue-100"
-                      onClick={() =>
-                        setActiveIndex(activeIndex === i ? null : i)
-                      }
-                    >
+                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-sky-100 to-blue-100">
                       <img
                         src={c.photo}
                         alt={c.name}
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
                       {/* DESC OVERLAY ON HOVER */}
-                      <div
+                      {/* <div
                         className={`absolute inset-0 flex items-end justify-center text-center px-4 z-10 pb-6
   bg-black/60 transition-all duration-300
   ${activeIndex === i ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
@@ -1569,7 +1567,7 @@ export default function AjnabeeTrip() {
                         <p className="text-white text-sm leading-relaxed">
                           {c.desc}
                         </p>
-                      </div>
+                      </div> */}
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
                       {/* Trips badge */}
                       <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-sky-600 border border-sky-200 font-heading text-xs font-bold px-3 py-1 rounded-full shadow">
@@ -1594,14 +1592,17 @@ export default function AjnabeeTrip() {
                       <p className="text-sky-500 font-body text-xs mb-2">
                         🎯 {c.expertise}
                       </p>
-                      {/* <p
-                        className="font-body text-slate-500 text-sm leading-relaxed 
-              opacity-0 max-h-0 
-              group-hover:opacity-100 group-hover:max-h-40 
-              transition-all duration-300 ease-in-out overflow-hidden"
+                      <p
+                        className={`font-body text-slate-500 text-sm leading-relaxed overflow-hidden
+  transition-all duration-300 ease-in-out
+  ${
+    activeIndex === i
+      ? "opacity-100 max-h-40 mt-2"
+      : "opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 group-hover:mt-2"
+  }`}
                       >
                         {c.desc}
-                      </p> */}
+                      </p>
                     </div>
                   </div>
                 </FadeUp>
