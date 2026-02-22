@@ -1524,8 +1524,18 @@ export default function AjnabeeTrip() {
                       <img
                         src={c.photo}
                         alt={c.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
+                      {/* DESC OVERLAY ON HOVER */}
+                      <div
+                        className="absolute inset-0 flex items-end justify-center text-center px-4 z-10 pb-6
+                bg-black/60 opacity-0 group-hover:opacity-100
+                transition-all duration-300"
+                      >
+                        <p className="text-white text-sm leading-relaxed">
+                          {c.desc}
+                        </p>
+                      </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
                       {/* Trips badge */}
                       <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-sky-600 border border-sky-200 font-heading text-xs font-bold px-3 py-1 rounded-full shadow">
@@ -1550,14 +1560,14 @@ export default function AjnabeeTrip() {
                       <p className="text-sky-500 font-body text-xs mb-2">
                         🎯 {c.expertise}
                       </p>
-                      <p
+                      {/* <p
                         className="font-body text-slate-500 text-sm leading-relaxed 
               opacity-0 max-h-0 
               group-hover:opacity-100 group-hover:max-h-40 
               transition-all duration-300 ease-in-out overflow-hidden"
                       >
                         {c.desc}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </FadeUp>
