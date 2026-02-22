@@ -791,62 +791,62 @@ function FadeUp({ children, delay = 0, className = "" }) {
 
 const captains = [
   {
-    name: "Rahul",
+    name: "Rahul (Delhi Boy)",
     role: "Vibe Master",
     trips: 48,
     expertise: "Nightlife & Music",
     emoji: "🎵",
-    desc: "Turns strangers into besties by night one.",
+    desc: "Rahul sirf rasta nahi dikhata, ye wo banda hai jo bus mein baithte hi sabka sharam (hesitation) khidki se bahar phenkwa deta hai. Iske paas har situtation ke liye ek kissa aur har udaas chehre ke liye ek joke taiyaar rehta hai.",
     photo:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
   },
   {
-    name: "Sneha",
+    name: "Sneha (South Delhi Vibes, Mountain Heart)",
     role: "Adventure Queen",
     trips: 62,
     expertise: "Trekking & Offbeat",
     emoji: "🏔️",
-    desc: "Will make you hike at 4am and love it.",
+    desc: "Sneha ko wo raaste pata hain jo Google Maps par bhi nahi milenge. Agar aapko lag raha hai ki aap thak gaye ho, toh ye apni energy se aapko top tak pahuncha degi. Safety aur fun ka perfect combo!",
     photo:
       "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&h=300&fit=crop&crop=face",
   },
   {
-    name: "Aryan",
+    name: "Aryan (The Content King)",
     role: "Reel Machine",
     trips: 35,
     expertise: "Content & Photography",
     emoji: "🎬",
-    desc: "Your trip becomes a film reel in his hands.",
+    desc: "Aryan ke saath trip par gaye aur photo achi nahi aai? Aisa ho hi nahi sakta! Ye aapka 'Personal Paparazzi' hai jo aapke candid shots aur trending reels aise banayega ki followers puchenge—Bhai, ye kahan hai?",
     photo:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
   },
   {
-    name: "Ishita",
+    name: " Ishita (The Peace Seeker)",
     role: "Chill Soul",
     expertise: "Wellness & Mindfulness",
     trips: 29,
     emoji: "🧘",
-    desc: "Silence, stars, and soulful conversations.",
+    desc: "Agar aapko bheed se door kisi sukoon wali jagah par baith kar sunset dekhna hai, toh Ishita is your girl. Ise har shehar ki sabse purani gali aur sabse tasty local food point pata hota hai.",
     photo:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=face",
   },
   {
-    name: "Vishal",
+    name: "Vishal (The 'Fixer')",
     role: "Chaos Manager",
     expertise: "Logistics & Problem-solving",
     trips: 55,
     emoji: "⚡",
-    desc: "No bus? He'll find one. No signal? He won't need it.",
+    desc: "Barish ho, rasta band ho ya koi bhi panga—Kabir ke chehre par smile humesha rehti hai. Ye trip ka wo 'Bada Bhai' hai jo back-end par sab sambhal leta hai taaki aap sirf enjoy karo.",
     photo:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face",
   },
   {
-    name: "Mehak",
+    name: "Mehak (The Life of the Party)",
     role: "Energy Bomb",
     expertise: "Group Games & Bonding",
     trips: 41,
     emoji: "🎉",
-    desc: "Her laugh alone is worth the trip ticket.",
+    desc: "Mehak ke paas wo 'Secret Games' hain jo AjnabeeTrip ki pehchaan hain. Ye introvert se introvert bande ko bhi DJ night par nachwa deti hai. Iske saath boredom ka koi chance hi nahi hai!",
     photo:
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&h=300&fit=crop&crop=face",
   },
@@ -857,33 +857,49 @@ const coreTeam = [
     name: "Ishaan",
     role: "Creative Brain",
     emoji: "🎨",
+    location: "Delhi",
+    gender: "Male",
+    trips: "15+ (Research Trips)",
+    expertise: "Itinerary Planning & Aesthetic Vibes",
     photo:
       "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop",
-    desc: "Designs every campaign to hit different.",
+    desc: "Ishaan wo insaan hai jo ghanton Google Earth par baith kar aapke liye Hidden Tree Houses aur Secret Viewpoints dhoondta hai. Agar trip ka plan ekdum smooth aur Instagrammable hai, toh samajh lo iske piche Ishaan ka dimaag hai.",
   },
   {
     name: "Tanvi",
     role: "Support System",
     emoji: "💬",
+    location: "West Delhi",
+    gender: "Female",
+    trips: "10+ Group Trips",
+    expertise: "Query Solver & Solo Traveller Guide",
     photo:
       "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=800&auto=format&fit=crop",
-    desc: "Your 2AM query is her 9AM priority.",
+    desc: "Trip book karne se pehle aapke dimaag mein jitne sawal hote hain—Safety kaisi hai? Packing mein kya rakhun?—un sabka pyar se jawab Tanvi deti hai. Ye ensure karti hai ki aapka 'Ajnabee' se 'Family' banne ka safar pehli call se hi shuru ho jaye.",
   },
   {
     name: "Rohan",
     role: "Digital Wizard",
     emoji: "💻",
+    location: "South Delhi",
+    gender: "Male",
+    trips: "20+ Adventure Trips",
+    expertise: "Social Media & Community Building",
     photo:
       "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=800&auto=format&fit=crop",
-    desc: "Makes the internet work for your adventure.",
+    desc: "Hamari community ko ek saath jod kar rakhna Rohan ka kaam hai. Reels se memes tak, aur trip ke baad wale 'Missing the mountains' posts tak—Rohan ensure karta hai ki AjnabeeTrip ki vibe aapke phone par hamesha zinda rahe.",
   },
   {
     name: "Simran",
     role: "Logistics Ninja",
     emoji: "🗺️",
+    location: "Delhi",
+    gender: "Female",
+    trips: "12+ Nature Escapes",
+    expertise: "Transport & Stay Management",
     photo:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop",
-    desc: "Invisible. Indispensable. Always on time.",
+    desc: "Simran ka kaam hai parde ke piche reh kar ensure karna ki aapka traveller time par aaye aur premium stay ready ho. Ye wo fixer hai jo har trip ko seamless banati hai taaki aapko koi headache na ho.",
   },
 ];
 
