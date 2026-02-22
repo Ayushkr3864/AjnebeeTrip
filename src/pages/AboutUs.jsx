@@ -857,24 +857,32 @@ const coreTeam = [
     name: "Ishaan",
     role: "Creative Brain",
     emoji: "🎨",
+    photo:
+      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop",
     desc: "Designs every campaign to hit different.",
   },
   {
     name: "Tanvi",
     role: "Support System",
     emoji: "💬",
+    photo:
+      "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=800&auto=format&fit=crop",
     desc: "Your 2AM query is her 9AM priority.",
   },
   {
     name: "Rohan",
     role: "Digital Wizard",
     emoji: "💻",
+    photo:
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=800&auto=format&fit=crop",
     desc: "Makes the internet work for your adventure.",
   },
   {
     name: "Simran",
     role: "Logistics Ninja",
     emoji: "🗺️",
+    photo:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop",
     desc: "Invisible. Indispensable. Always on time.",
   },
 ];
@@ -908,6 +916,8 @@ function Blob({ className }) {
 
 export default function AjnabeeTrip() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeTeamIndex, setActiveTeamIndex] = useState(null);
 
   return (
     <div className="min-h-screen bg-sky-50 font-sans overflow-x-hidden relative">
@@ -1520,7 +1530,12 @@ export default function AjnabeeTrip() {
                 <FadeUp key={c.name} delay={(i % 3) * 0.12}>
                   <div className="bg-white rounded-3xl overflow-hidden shadow-md border border-sky-100 card-hover cursor-default group">
                     {/* Photo Banner */}
-                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-sky-100 to-blue-100">
+                    <div
+                      className="relative h-48 overflow-hidden bg-gradient-to-br from-sky-100 to-blue-100"
+                      onClick={() =>
+                        setActiveIndex(activeIndex === i ? null : i)
+                      }
+                    >
                       <img
                         src={c.photo}
                         alt={c.name}
@@ -1528,9 +1543,9 @@ export default function AjnabeeTrip() {
                       />
                       {/* DESC OVERLAY ON HOVER */}
                       <div
-                        className="absolute inset-0 flex items-end justify-center text-center px-4 z-10 pb-6
-                bg-black/60 opacity-0 group-hover:opacity-100
-                transition-all duration-300"
+                        className={`absolute inset-0 flex items-end justify-center text-center px-4 z-10 pb-6
+  bg-black/60 transition-all duration-300
+  ${activeIndex === i ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
                       >
                         <p className="text-white text-sm leading-relaxed">
                           {c.desc}
@@ -1596,17 +1611,50 @@ export default function AjnabeeTrip() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {coreTeam.map((m, i) => (
                 <FadeUp key={m.name} delay={i * 0.12}>
-                  <div className="text-center bg-gradient-to-b from-sky-50 to-white rounded-3xl p-6 border border-sky-100 shadow-sm card-hover cursor-default">
-                    <span className="text-4xl block mb-3">{m.emoji}</span>
-                    <h3 className="font-heading text-base font-bold text-slate-800">
-                      {m.name}
-                    </h3>
-                    <p className="text-sky-500 font-heading text-xs font-semibold mb-3">
-                      {m.role}
-                    </p>
-                    <p className="font-body text-slate-400 text-xs leading-relaxed">
-                      {m.desc}
-                    </p>
+                  <div
+                    className="text-center bg-gradient-to-b from-sky-50 to-white rounded-3xl overflow-hidden border border-sky-100 shadow-sm card-hover group cursor-pointer"
+                    onClick={() =>
+                      setActiveTeamIndex(activeTeamIndex === i ? null : i)
+                    }
+                  >
+                    {/* IMAGE */}
+                    <div className="relative h-40 w-full overflow-hidden rounded-t-3xl">
+                      <img
+                        src={m.photo}
+                        alt={m.name}
+                        className="w-full h-full object-cover object-center rounded-t-3xl"
+                      />
+
+                      {/* OVERLAY DESCRIPTION */}
+                      <div
+                        className={`absolute inset-0 flex items-end justify-center text-center px-4 pb-5
+      bg-black/60 transition-all duration-300
+      ${
+        activeTeamIndex === i
+          ? "opacity-100"
+          : "opacity-0 group-hover:opacity-100"
+      }`}
+                      >
+                        <p className="text-white text-xs leading-relaxed">
+                          {m.desc}
+                        </p>
+                      </div>
+
+                      {/* TOP EMOJI BADGE */}
+                      <span className="absolute top-3 left-3 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-lg shadow">
+                        {m.emoji}
+                      </span>
+                    </div>
+
+                    {/* TEXT CONTENT */}
+                    <div className="p-4">
+                      <h3 className="font-heading text-sm font-bold text-slate-800">
+                        {m.name}
+                      </h3>
+                      <p className="text-sky-500 font-heading text-xs font-semibold">
+                        {m.role}
+                      </p>
+                    </div>
                   </div>
                 </FadeUp>
               ))}
