@@ -913,7 +913,7 @@ function Blob({ className }) {
     />
   );
 }
-
+import { NavLink } from "react-router-dom"
 export default function AjnabeeTrip() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -935,9 +935,12 @@ export default function AjnabeeTrip() {
 
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 glass px-6 py-4 flex items-center justify-between">
-        <span className="font-display text-xl text-sky-700 tracking-tight">
+        {/* <span className="font-display text-xl text-sky-700 tracking-tight">
           Ajnabee<span className="text-orange-400">Trip</span>
-        </span>
+        </span> */}
+        <NavLink to="/">
+          <img src="/Logo-bg.png" className="h-10 w-10" alt="Ajnaabee Trip" />
+        </NavLink>
         <div className="hidden md:flex gap-8 font-heading text-sm font-semibold text-slate-600">
           {["Story", "Experience", "Team", "Captains"].map((l) => (
             <a
