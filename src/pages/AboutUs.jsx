@@ -1550,7 +1550,12 @@ export default function AjnabeeTrip() {
                       <p className="text-sky-500 font-body text-xs mb-2">
                         🎯 {c.expertise}
                       </p>
-                      <p className="font-body text-slate-500 text-sm leading-relaxed">
+                      <p
+                        className="font-body text-slate-500 text-sm leading-relaxed 
+              opacity-0 max-h-0 
+              group-hover:opacity-100 group-hover:max-h-40 
+              transition-all duration-300 ease-in-out overflow-hidden"
+                      >
                         {c.desc}
                       </p>
                     </div>
