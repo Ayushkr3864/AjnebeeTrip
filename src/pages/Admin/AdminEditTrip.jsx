@@ -434,6 +434,7 @@ export default function AdminEditTrip() {
 
                       <button
                         onClick={() => removeDay(index)}
+                        type="button"
                         className="text-red-400 hover:text-white"
                       >
                         <X size={16} />
