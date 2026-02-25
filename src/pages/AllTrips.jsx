@@ -234,7 +234,7 @@ const AllTrip = () => {
                       className="font-semibold"
                       style={{ color: "var(--accent-main)" }}
                     >
-                      ₹{tour.price?.single}/-
+                      ₹{tour.pricing?.quad}/-
                     </span>
 
                     <button
