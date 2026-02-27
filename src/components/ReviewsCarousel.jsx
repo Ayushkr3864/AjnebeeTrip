@@ -94,9 +94,9 @@ export default function ReviewsCarousel({ tripId }) {
         >
           {/* 👤 User Avatar */}
           <div className="flex justify-center mb-4">
-            {review.photo ? (
+            {review.avatar ? (
               <img
-                src={review.photo}
+                src={review.avatar}
                 alt={review.name}
                 className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
               />

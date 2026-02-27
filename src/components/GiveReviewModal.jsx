@@ -3,12 +3,46 @@ import { Star, X } from "lucide-react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { motion, AnimatePresence } from "framer-motion";
+const uploadToCloudinary = async (file) => {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
+
+  const cloudName = import.meta.env.VITE_CLOUD_NAME;
+  // console.log("cloud",cloudName);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: data,
+    },
+  );
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    console.error("Cloudinary error:", result);
+    throw new Error(result.error?.message || "Image upload failed");
+  }
+
+  return result.secure_url;
+};
 
 export default function GiveReviewModal({ onClose, tripId }) {
   const [rating, setRating] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [image, setImage] = useState(null)
+  const [preview, setPreview] = useState(null);
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file)); // preview
+    }
+  };
   const [form, setForm] = useState({
     name: "",
     contact: "",
@@ -21,6 +55,11 @@ export default function GiveReviewModal({ onClose, tripId }) {
     setSubmitting(true);
 
     try {
+       let imageURL = "";
+
+       if (image) {
+         imageURL = await uploadToCloudinary(image);
+       }
       await addDoc(collection(db, "reviews"), {
         tripId,
         name: form.name,
@@ -28,6 +67,7 @@ export default function GiveReviewModal({ onClose, tripId }) {
         rating,
         review: form.review,
         createdAt: serverTimestamp(),
+        avatar:imageURL
       });
 
       setShowPopup(true);
@@ -118,6 +158,28 @@ export default function GiveReviewModal({ onClose, tripId }) {
             className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 rounded-lg px-4 py-2 h-24 outline-none transition"
             onChange={(e) => setForm({ ...form, review: e.target.value })}
           />
+          {/* 📸 Upload Image */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-600">
+              Upload your trip photo (optional)
+            </label>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
+            />
+
+            {/* preview */}
+            {preview && (
+              <img
+                src={preview}
+                alt="preview"
+                className="w-full h-32 object-cover rounded-lg mt-2 border"
+              />
+            )}
+          </div>
 
           <motion.button
             whileHover={{ scale: 1.03 }}

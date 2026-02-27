@@ -30,14 +30,13 @@ function Home() {
     <>
       {/* HERO */}
       <Hero openEnquiry={() => setIsModalOpen(true)} />
+      <Suspense fallback={<SectionSkeleton />}>
+        <Popular openEnquiry={() => setIsModalOpen(true)} />
+      </Suspense>
 
       {/* BELOW THE FOLD */}
       <Suspense fallback={<SectionSkeleton />}>
         <WhyChooseUs />
-      </Suspense>
-
-      <Suspense fallback={<SectionSkeleton />}>
-        <Popular openEnquiry={() => setIsModalOpen(true)} />
       </Suspense>
 
       {/* <Suspense fallback={<SectionSkeleton />}>

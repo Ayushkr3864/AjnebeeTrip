@@ -27,7 +27,7 @@ const BookingPage = () => {
     phone: "",
     persons: 1,
     selectedDate: "",
-    sharingType: "double",
+    sharingType: "quad",
   });
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const BookingPage = () => {
   if (loading) return <p className="text-center py-20">Loading...</p>;
   if (!trip) return <p className="text-center py-20">Trip Not Found</p>;
 
-  const selectedPrice = trip.pricing?.[form.sharingType] || 0;
+  const selectedPrice = trip.pricing?.[form.sharingType] || 0 ;
 
   const total = selectedPrice * form.persons;
 
@@ -62,8 +62,8 @@ const handleSubmit = async (e) => {
   setSubmitting(true); // 🔒 disable button
   setSuccessMsg(""); // clear old message
 
-  const selectedPrice = trip.pricing?.[form.sharingType] || 0;
-  const total = selectedPrice * form.persons;
+  // const selectedPrice = trip.pricing?.[form.sharingType] || 0;
+  // const total = selectedPrice * form.persons;
 
   const bookingData = {
     ...form,
@@ -161,9 +161,9 @@ const handleSubmit = async (e) => {
             onChange={(e) => setForm({ ...form, sharingType: e.target.value })}
             className="w-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 p-3 rounded-lg outline-none transition"
           >
-            <option value="single">Single Sharing</option>
-            <option value="double">Double Sharing</option>
+            <option value="quad">Quad Sharing</option>
             <option value="triple">Triple Sharing</option>
+            <option value="double">Double Sharing</option>
           </select>
 
           {/* Persons */}

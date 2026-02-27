@@ -81,14 +81,14 @@ const TestimonialsInfinite = () => {
             <p className="text-center text-gray-500">No reviews yet.</p>
           ) : (
             <div className="marquee">
-              {[...testimonials, ...testimonials].map((t, i) => (
+              {[ ...testimonials].map((t, i) => (
                 <div
                   key={i}
                   className="mx-4 w-[320px] shrink-0 rounded-3xl p-6 bg-white border-2 border-[#101828]"
                 >
                   <div className="flex items-center gap-4 mb-3">
                     <img
-                      src={t.photo || "https://via.placeholder.com/50"}
+                      src={t.avatar || "https://via.placeholder.com/50"}
                       alt={t.name}
                       className="w-12 h-12 rounded-full object-cover"
                     />

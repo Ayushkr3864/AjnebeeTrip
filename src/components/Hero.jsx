@@ -6,6 +6,7 @@ import TestingToast from "./TestingToast";
 import navbar from "./Navbar";
 import { FaInstagram, FaYoutube, FaFacebookF } from "react-icons/fa";
 import Navbar from "./Navbar";
+import {NavLink} from "react-router-dom"
 
 const notifyVariant = {
   hidden: {
@@ -136,13 +137,16 @@ const HeroSection = () => {
             transition={{ delay: 0.7, duration: 1 }}
             className="mt-8 flex gap-4"
           >
-            <button className="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-sky-400 hover:scale-105 transition-all shadow-lg">
-              Explore Trips
-            </button>
+            <NavLink to="/alltrip">
+              {" "}
+              <button className="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-sky-400 hover:scale-105 transition-all shadow-lg">
+                Explore Trips
+              </button>
+            </NavLink>
 
-            <button className="px-8 py-3 rounded-full border border-white hover:bg-white hover:text-black transition-all">
+            {/* <button className="px-8 py-3 rounded-full border border-white hover:bg-white hover:text-black transition-all">
               Book Now
-            </button>
+            </button> */}
           </motion.div>
 
           {/* Social Stats */}
