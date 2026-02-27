@@ -10,6 +10,8 @@ import {
 import { db } from "../firebase";
 import emailjs from "@emailjs/browser";
 
+import { X } from "lucide-react";
+
 
 const BookingPage = () => {
   const { id } = useParams();
@@ -121,6 +123,12 @@ const handleSubmit = async (e) => {
         <h2 className="text-3xl font-bold text-center text-indigo-700 mb-2">
           Book Your Trip ✈️
         </h2>
+        <button
+          onClick={() => navigate("/")}
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-500 hover:scale-110 transition"
+        >
+          <X size={26} />
+        </button>
 
         <p className="text-center text-gray-500 mb-6">{trip.title}</p>
 

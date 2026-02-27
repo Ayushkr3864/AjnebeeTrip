@@ -1,8 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 
 const PaymentPage = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const booking = state?.booking;
 
   if (!booking) return <p className="text-center py-20">No booking found</p>;
@@ -39,6 +42,12 @@ Total: ₹${booking.totalPrice}
         <h2 className="text-3xl font-bold text-indigo-700 mb-2">
           Complete Your Payment 💳
         </h2>
+        <button
+          onClick={() => navigate("/")}
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-500 hover:scale-110 transition"
+        >
+          <X size={26} />
+        </button>
 
         <p className="text-gray-500 mb-6">
           Secure your booking for{" "}
