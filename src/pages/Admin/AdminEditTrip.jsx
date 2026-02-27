@@ -120,7 +120,7 @@ export default function AdminEditTrip() {
             pricing: {
               quad: data.pricing?.quad || "",
               triple: data.pricing?.triple || "",
-              diuble: data.pricing?.double || "",
+              double: data.pricing?.double || "",
             },
             availableDates: data.availableDates || [],
             tags: data.tags || [],
