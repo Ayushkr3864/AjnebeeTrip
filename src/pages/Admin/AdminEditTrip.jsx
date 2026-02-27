@@ -61,13 +61,37 @@ export default function AdminEditTrip() {
   });
   
 
-  const [dayInput, setDayInput] = useState({ title: "", description: "" });
+ const [dayInput, setDayInput] = useState({
+   title: "",
+   descriptionPoints: [],
+ });
+
+ const [dayDescInput, setDayDescInput] = useState("");
   const [itineraryDays, setItineraryDays] = useState([]);
   const [descInput, setDescInput] = useState("");
   const removeDescriptionPoint = (point) => {
     setFormData({
       ...formData,
       description: formData.description.filter((d) => d !== point),
+    });
+  };
+  const addDayDescriptionPoint = (e) => {
+    if (e.key === "Enter" && dayDescInput.trim()) {
+      e.preventDefault();
+
+      setDayInput({
+        ...dayInput,
+        descriptionPoints: [...dayInput.descriptionPoints, dayDescInput.trim()],
+      });
+
+      setDayDescInput("");
+    }
+  };
+
+  const removeDayDescriptionPoint = (point) => {
+    setDayInput({
+      ...dayInput,
+      descriptionPoints: dayInput.descriptionPoints.filter((p) => p !== point),
     });
   };
 
@@ -104,7 +128,16 @@ export default function AdminEditTrip() {
             excludes: data.excludes || [],
           });
 
-          setItineraryDays(data.itineraryDays || []);
+          const formattedDays = (data.itineraryDays || []).map((d) => ({
+            ...d,
+            description: Array.isArray(d.description)
+              ? d.description
+              : d.description
+                ? [d.description]
+                : [],
+          }));
+
+          setItineraryDays(formattedDays);
           setImagePreview(data.image || null);
         }
       } catch (error) {
@@ -121,18 +154,22 @@ export default function AdminEditTrip() {
   };
 
   /* ================= DAY LOGIC ================= */
-  const addDay = () => {
-    if (!dayInput.title.trim() || !dayInput.description.trim()) return;
+const addDay = () => {
+  if (!dayInput.title.trim() || dayInput.descriptionPoints.length === 0) return;
 
-    const newDay = {
-      day: `Day ${itineraryDays.length + 1}`,
-      title: dayInput.title,
-      description: dayInput.description,
-    };
-
-    setItineraryDays([...itineraryDays, newDay]);
-    setDayInput({ title: "", description: "" });
+  const newDay = {
+    day: `Day ${itineraryDays.length + 1}`,
+    title: dayInput.title,
+    description: dayInput.descriptionPoints, // array
   };
+
+  setItineraryDays([...itineraryDays, newDay]);
+
+  setDayInput({
+    title: "",
+    descriptionPoints: [],
+  });
+};
 
   const removeDay = (index) => {
     const updated = itineraryDays.filter((_, i) => i !== index);
@@ -398,15 +435,58 @@ export default function AdminEditTrip() {
                 className="input mb-2"
               />
 
-              <textarea
-                placeholder="Day Description"
-                rows={3}
-                value={dayInput.description}
-                onChange={(e) =>
-                  setDayInput({ ...dayInput, description: e.target.value })
-                }
-                className="input"
-              />
+              <div className="mt-2">
+                <h4 className="text-sm font-semibold text-amber-400 mb-2">
+                  Day Description Points
+                </h4>
+
+                <div className="flex gap-2">
+                  <input
+                    placeholder="Add point (Hotel check-in, Trek, Bonfire...)"
+                    value={dayDescInput}
+                    onChange={(e) => setDayDescInput(e.target.value)}
+                    onKeyDown={addDayDescriptionPoint}
+                    className="input flex-1"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!dayDescInput.trim()) return;
+
+                      setDayInput({
+                        ...dayInput,
+                        descriptionPoints: [
+                          ...dayInput.descriptionPoints,
+                          dayDescInput.trim(),
+                        ],
+                      });
+
+                      setDayDescInput("");
+                    }}
+                    className="bg-indigo-500 px-4 rounded-lg text-white font-semibold"
+                  >
+                    Add
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {dayInput.descriptionPoints.map((point, index) => (
+                    <span
+                      key={index}
+                      className="flex items-center gap-1 bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-sm font-semibold"
+                    >
+                      {point}
+                      <button
+                        type="button"
+                        onClick={() => removeDayDescriptionPoint(point)}
+                      >
+                        <X size={14} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               <button
                 type="button"
@@ -427,9 +507,15 @@ export default function AdminEditTrip() {
                       <div>
                         <p className="font-bold text-indigo-400">{d.day}</p>
                         <p className="font-semibold text-white">{d.title}</p>
-                        <p className="text-sm text-gray-300 mt-1">
-                          {d.description}
-                        </p>
+                        <ul className="list-disc ml-5 mt-2 text-sm text-gray-300">
+                          {Array.isArray(d.description) ? (
+                            d.description.map((point, i) => (
+                              <li key={i}>{point}</li>
+                            ))
+                          ) : (
+                            <li>{d.description}</li>
+                          )}
+                        </ul>
                       </div>
 
                       <button

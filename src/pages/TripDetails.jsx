@@ -324,13 +324,26 @@ const [activeDay, setActiveDay] = useState(null);
                     <AnimatePresence>
                       {activeDay === index && (
                         <motion.div
-                          className="ml-[110px] mt-3 text-gray-600 text-sm leading-relaxed"
+                          className="mt-3 text-gray-600 text-sm leading-relaxed md:ml-[110px]"
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          {day.description}
+                          {Array.isArray(day.description) ? (
+                            <ul className="space-y-2">
+                              {day.description.map((point, i) => (
+                                <li key={i} className="flex items-start gap-2">
+                                  <span className="text-indigo-500 mt-1">
+                                    •
+                                  </span>
+                                  <span>{point}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p>{day.description}</p>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
