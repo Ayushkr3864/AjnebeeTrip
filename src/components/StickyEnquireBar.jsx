@@ -11,7 +11,7 @@ export default function StickyEnquireBar({ openEnquiry }) {
         transition={{ duration: 0.6, ease: "easeInOut" }}
         className="fixed bottom-0 left-0 w-full z-40 backdrop-blur-lg bg-white/80 border-t border-blue-100 shadow-2xl"
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-4 md:flex lg:flex items-center justify-between hidden">
           {/* Left Text (Desktop only) */}
           <p className="hidden md:block text-gray-700 font-medium">
             ✈️ Need help planning your perfect getaway?

@@ -62,10 +62,11 @@ function Home() {
       />
 
       {/* STICKY BOTTOM BAR */}
-      <StickyEnquireBar openEnquiry={() => setIsModalOpen(true)} />
-      {/* <>
-        <MobileContactButtons onEnquireClick={() => setOpenModal(true)} />
-      </> */}
+      {/* <StickyEnquireBar openEnquiry={() => setIsModalOpen(true)} /> */}
+      
+      <>
+        <MobileContactButtons />
+      </>
     </>
   );
 }
