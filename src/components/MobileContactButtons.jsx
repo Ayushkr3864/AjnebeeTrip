@@ -20,7 +20,7 @@ export default function MobileContactButtons({openEnquiry}) {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 40 }}
                 whileTap={{ scale: 0.95 }}
-                href="tel:9811953565"
+                href="tel:9310308483"
                 className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg"
               >
                 <Phone size={18} />
@@ -33,7 +33,7 @@ export default function MobileContactButtons({openEnquiry}) {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 40 }}
                 whileTap={{ scale: 0.95 }}
-                href="https://wa.me/919811953565"
+                href="https://wa.me/9310308483"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg"
@@ -72,10 +72,9 @@ export default function MobileContactButtons({openEnquiry}) {
           )}
         </AnimatePresence>
         {/* 🔘 Main Enquiry Button */}
-        
+
         <>
           <div className="fixed bottom-10 right-4 z-[999] flex flex-col items-end gap-3">
-
             {/* 🔘 Main Enquiry Button */}
             <motion.button
               whileTap={{ scale: 0.9 }}
@@ -95,9 +94,7 @@ export default function MobileContactButtons({openEnquiry}) {
             onClose={() => setIsModalOpen(false)}
           />
         </>
-       
       </div>
-
     </>
   );
 }

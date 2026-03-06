@@ -21,7 +21,7 @@ Persons: ${booking.persons}
 Total: ₹${booking.totalPrice}
 `;
 
-  const whatsappLink = `https://wa.me/9811953565?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/9310308483?text=${encodeURIComponent(
     whatsappMessage,
   )}`;
 
@@ -93,7 +93,7 @@ Total: ₹${booking.totalPrice}
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="tel:+919811953565"
+            href="tel:+919310308483"
             className="bg-green-600 text-white py-3 rounded-full font-semibold"
           >
             📞 Call Us

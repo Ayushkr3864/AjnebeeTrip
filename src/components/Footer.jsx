@@ -98,7 +98,7 @@ const Footer = () => {
               <Link>About Us</Link>
             </li>
             <li className="hover:text-white cursor-pointer">
-              <a href="tel:+9198119 53565">Contact</a>
+              <a href="tel:+919310308483">Contact</a>
             </li>
           </ul>
         </div>
@@ -184,10 +184,10 @@ const Footer = () => {
 
           {/* Contact */}
           <ul className="space-y-3 text-sm mt-5 text-gray-400">
-            <a href="tel:+9198119 53565">
+            <a href="tel:+91 9310308483">
               {" "}
               <li className="flex items-center gap-2">
-                <Phone size={16} /> +91 98119 53565
+                <Phone size={16} /> +91 9310308483
               </li>
             </a>
             <a href="mailto:info@ajnabeetrip.com?subject=Travel Inquiry&body=Hello Ajnabee Trip,">
