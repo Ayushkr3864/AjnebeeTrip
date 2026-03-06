@@ -14,6 +14,9 @@ import { X } from "lucide-react";
 
 
 const BookingPage = () => {
+  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_BOOKING;
+  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -86,13 +89,7 @@ const handleSubmit = async (e) => {
     });
 
     // 2️⃣ Send email
-    await emailjs.send(
-      import.meta.env.VITE_EMAILJS_SERVICE,
-      import.meta.env.VITE_EMAILJS_TEMPLATE,
-      bookingData,
-      import.meta.env.VITE_EMAILJS_PUBLIC,
-    );
-
+   await emailjs.send(SERVICE_ID, TEMPLATE_ID, bookingData, PUBLIC_KEY);
     // 3️⃣ Show success message
     setSuccessMsg("Booking successful 🎉 Redirecting to payment...");
 
