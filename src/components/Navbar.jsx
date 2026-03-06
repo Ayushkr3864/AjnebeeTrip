@@ -46,7 +46,7 @@ const Navbar = () => {
             <img src="/Logo-bg.png" className="h-10 w-10" alt="Ajnaabee Trip" />
           </NavLink>
           <a
-            href="tel:+9198119 53565"
+            href="tel:+91 9310308483"
             className="flex items-center justify-center gap-3  py-2 px-7 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition"
           >
             <Phone />
@@ -132,7 +132,7 @@ const Navbar = () => {
               {/* Call Us Button */}
               <div className="mt-auto pt-6 border-t border-white/10">
                 <a
-                  href="tel:+9198119 53565"
+                  href="tel:+91 9310308483"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition"
                 >
                   <Phone />
