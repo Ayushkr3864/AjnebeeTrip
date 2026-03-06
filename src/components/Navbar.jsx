@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const navLinks = [
   { name: "Home", path: "/", navigate:"#footer" },
   { name: "Services", path: "/services" },
-  { name: "About Us", path: "/about" },
+  // { name: "About Us", path: "/about" },
 ];
 
 // Animation variants

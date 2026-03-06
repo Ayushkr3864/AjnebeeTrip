@@ -299,8 +299,6 @@ const handleScroll = () => {
                       border: "1px solid var(--card-border)",
                     }}
                   >
-                    {/* IMAGE */}
-                    {/* IMAGE */}
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <img
                         src={tour.image}

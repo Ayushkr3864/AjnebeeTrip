@@ -9,7 +9,7 @@ export default function MobileContactButtons({openEnquiry}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
-      <div className="fixed bottom-5 right-4 z-[999] flex flex-col items-end gap-3">
+      <div className="fixed bottom-25 right-4 z-[999] flex flex-col items-end gap-3">
         {/* 🔽 Action Buttons */}
         <AnimatePresence>
           {open && (
@@ -72,10 +72,9 @@ export default function MobileContactButtons({openEnquiry}) {
           )}
         </AnimatePresence>
         {/* 🔘 Main Enquiry Button */}
-        return (
+        
         <>
-          <div className="fixed bottom-5 right-4 z-[999] flex flex-col items-end gap-3">
-            {/* buttons code same as yours */}
+          <div className="fixed bottom-10 right-4 z-[999] flex flex-col items-end gap-3">
 
             {/* 🔘 Main Enquiry Button */}
             <motion.button
@@ -96,7 +95,7 @@ export default function MobileContactButtons({openEnquiry}) {
             onClose={() => setIsModalOpen(false)}
           />
         </>
-        );
+       
       </div>
 
     </>
