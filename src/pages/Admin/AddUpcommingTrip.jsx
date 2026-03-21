@@ -29,6 +29,7 @@ const AddTrip = () => {
       paymentType: "full",
       partialAmount: "",
     },
+    priority: 1,
     seats: {
       totalSeats: "",
       seatsLeft: "",

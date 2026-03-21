@@ -55,6 +55,22 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep }) => {
           onChange={handleChange}
           className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
+        <div>
+          <p className="font-medium mb-1">Trip Priority</p>
+          <input
+            type="number"
+            name="priority"
+            placeholder="Enter priority (e.g. 1–10)"
+            value={formData.priority}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                priority: Number(e.target.value),
+              })
+            }
+            className="border p-2 rounded-lg w-full"
+          />
+        </div>
 
         <button
           onClick={nextStep}
