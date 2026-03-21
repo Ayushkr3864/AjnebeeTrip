@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAF5pZ47jcWi5pdLNA6YxGMVh1L78fMaAc",
   authDomain: "ajnaabee-trip.firebaseapp.com",
   projectId: "ajnaabee-trip",
-  storageBucket: "ajnaabee-trip.appshot.com",
+  storageBucket: "ajnaabee-trip.appspot.com",
   messagingSenderId: "1066804151079",
   appId: "1:1066804151079:web:21de5dc2f4574c953c9f02",
   measurementId: "G-3VPSF282YF",

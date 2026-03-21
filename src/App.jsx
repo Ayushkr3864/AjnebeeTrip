@@ -23,6 +23,7 @@ import AdminBookings from "./pages/Admin/AdminBookings";
 import AboutUs from "./pages/AboutUs"
 import AdminEditTrip from "./pages/Admin/AdminEditTrip"
 import Services from "./pages/services"
+import AdminAddUpcommingTrip from "./pages/Admin/AddUpcommingTrip"
 
 console.log("Firebase Auth:", auth);
 
@@ -100,10 +101,20 @@ function App() {
             </Protected>
           }
         />
+        <Route
+          path="/admin/upcommingTrip"
+          element={
+            <Protected>
+              <AdminLayout>
+                <AdminAddUpcommingTrip />
+              </AdminLayout>
+            </Protected>
+          }
+        />
 
         <Route path="/trip/:id" element={<TripDetails />} />
         <Route path="/alltrip" element={<AllTrip />} />
-        <Route path="/services" element={<Services/>} />
+        <Route path="/services" element={<Services />} />
         <Route path="/book/:id" element={<BookingPage />} />
         {/* <Route path="about" element={<AboutUs />} /> */}
 
