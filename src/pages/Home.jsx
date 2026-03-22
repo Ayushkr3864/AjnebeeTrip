@@ -13,6 +13,7 @@ const Destinations = React.lazy(() => import("../components/Destinations"));
 const Testimonial = React.lazy(() => import("../components/Testimonials"));
 const CTA = React.lazy(() => import("../components/FinalCTA"));
 const Doubt = React.lazy(() => import("../components/Doubt"));
+const Weekly = React.lazy(()=> import("../components/WeeklyTrip"))
 
 /* ==========================
    SKELETON FALLBACK
@@ -32,6 +33,10 @@ function Home() {
       <Hero openEnquiry={() => setIsModalOpen(true)} />
       <Suspense fallback={<SectionSkeleton />}>
         <Popular openEnquiry={() => setIsModalOpen(true)} />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton />}>
+        <Weekly openEnquiry={() => setIsModalOpen(true)} />
       </Suspense>
 
       {/* BELOW THE FOLD */}
@@ -63,7 +68,7 @@ function Home() {
 
       {/* STICKY BOTTOM BAR */}
       {/* <StickyEnquireBar openEnquiry={() => setIsModalOpen(true)} /> */}
-      
+
       <>
         <MobileContactButtons />
       </>
