@@ -9,9 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import emailjs from "@emailjs/browser";
-
 import { X } from "lucide-react";
-
 
 const BookingPage = () => {
   const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -24,8 +22,6 @@ const BookingPage = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
-
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -52,7 +48,6 @@ const BookingPage = () => {
     console.log(import.meta.env.VITE_EMAILJS_SERVICE);
     console.log(import.meta.env.VITE_EMAILJS_TEMPLATE);
     console.log(import.meta.env.VITE_EMAILJS_PUBLIC);
-
 
   if (loading) return <p className="text-center py-20">Loading...</p>;
   if (!trip) return <p className="text-center py-20">Trip Not Found</p>;
@@ -105,9 +100,6 @@ const handleSubmit = async (e) => {
     setSubmitting(false); // re-enable button if error
   }
 };
-
-
-
   return (
     <div className="relative min-h-screen flex items-center justify-center px-6 py-20 bg-[#f6f8ff] overflow-hidden">
       {/* 🔵 Floating Shapes */}

@@ -25,6 +25,7 @@ import AdminEditTrip from "./pages/Admin/AdminEditTrip"
 import Services from "./pages/services"
 import AdminAddUpcommingTrip from "./pages/Admin/AddUpcommingTrip"
 import WeeklyTrip from "./components/WeeklyTripDetails"
+import AdminWeekly from "./pages/Admin/AdminViewWeeklyTrip"
 
 console.log("Firebase Auth:", auth);
 
@@ -108,6 +109,16 @@ function App() {
             <Protected>
               <AdminLayout>
                 <AdminAddUpcommingTrip />
+              </AdminLayout>
+            </Protected>
+          }
+        />
+        <Route
+          path="/view/admin/upcommingTrip"
+          element={
+            <Protected>
+              <AdminLayout>
+                <AdminWeekly/>
               </AdminLayout>
             </Protected>
           }

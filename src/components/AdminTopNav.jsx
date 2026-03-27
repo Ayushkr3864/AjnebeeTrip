@@ -45,6 +45,10 @@ export default function AdminTopNav() {
             <MapPin size={16} /> Add Upcomming Trips
           </NavLink>
 
+          <NavLink to="/view/admin/upcommingTrip" className={navItemClass}>
+            <MapPin size={16} /> Add Upcomming Trips
+          </NavLink>
+
           <NavLink to="/admin/feedback" className={navItemClass}>
             <MessageSquare size={16} /> Feedback
           </NavLink>
@@ -88,6 +92,14 @@ export default function AdminTopNav() {
           </NavLink>
           <NavLink
             to="/admin/upcommingTrip"
+            onClick={() => setMobileOpen(false)}
+            className={navItemClass}
+          >
+            <MapPin size={16} /> Add Upcomming Trips
+          </NavLink>
+
+          <NavLink
+            to="/view/admin/upcommingTrip"
             onClick={() => setMobileOpen(false)}
             className={navItemClass}
           >

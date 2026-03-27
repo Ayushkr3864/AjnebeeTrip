@@ -8,7 +8,6 @@ import Navbar from "../components/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import TermsAndRefundPolicy from "../components/TermsAndRefundPolicy";
 import { FaCloudSun, FaIdCard, FaSuitcase, FaBan } from "react-icons/fa";
-      
 
 const TripDetails = () => {
   const { id } = useParams();
@@ -33,7 +32,6 @@ useEffect(() => {
   return () => unsubscribe(); // cleanup
 }, [id]);
   console.log("trip found",trip);
-  
   const getSeatStatus = () => {
     const total = Number(trip?.seats.totalSeats);
     const left = Number(trip?.seats.seatsLeft);
