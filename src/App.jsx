@@ -26,6 +26,7 @@ import Services from "./pages/services"
 import AdminAddUpcommingTrip from "./pages/Admin/AddUpcommingTrip"
 import WeeklyTrip from "./components/WeeklyTripDetails"
 import AdminWeekly from "./pages/Admin/AdminViewWeeklyTrip"
+import BookingPageWeekly from "./pages/WeeklyTripBook"
 
 console.log("Firebase Auth:", auth);
 
@@ -118,7 +119,7 @@ function App() {
           element={
             <Protected>
               <AdminLayout>
-                <AdminWeekly/>
+                <AdminWeekly />
               </AdminLayout>
             </Protected>
           }
@@ -128,6 +129,7 @@ function App() {
         <Route path="/alltrip" element={<AllTrip />} />
         <Route path="/services" element={<Services />} />
         <Route path="/book/:id" element={<BookingPage />} />
+        <Route path="/bookweeklytrip/:id" element={<BookingPageWeekly />} />
         <Route path="/weeklytrip/:id" element={<WeeklyTrip />} />
         {/* <Route path="about" element={<AboutUs />} /> */}
 

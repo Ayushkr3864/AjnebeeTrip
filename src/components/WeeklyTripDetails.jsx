@@ -135,7 +135,7 @@ useEffect(() => {
             )}
 
             <motion.button
-              // onClick={() => navigate(`/book/${trip.id}`)}
+              onClick={() => navigate(`/bookweeklytrip/${trip.id}`)}
               className="border-2 border-white px-8 py-3 rounded-full backdrop-blur-md bg-white/10 hover:bg-white/20 font-semibold"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
