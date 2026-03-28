@@ -16,7 +16,6 @@ New Booking Received:
 Name: ${booking.name}
 Trip: ${booking.tourTitle}
 Date: ${booking.selectedDate}
-Sharing: ${booking.sharingType}
 Persons: ${booking.persons}
 Total: ₹${booking.totalPrice}
 `;
@@ -69,10 +68,6 @@ Total: ₹${booking.totalPrice}
           </p>
           <p>
             <span className="font-semibold">Date:</span> {booking.selectedDate}
-          </p>
-          <p>
-            <span className="font-semibold">Sharing:</span>{" "}
-            {booking.sharingType}
           </p>
           <p>
             <span className="font-semibold">Persons:</span> {booking.persons}

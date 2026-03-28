@@ -27,6 +27,7 @@ import AdminAddUpcommingTrip from "./pages/Admin/AddUpcommingTrip"
 import WeeklyTrip from "./components/WeeklyTripDetails"
 import AdminWeekly from "./pages/Admin/AdminViewWeeklyTrip"
 import BookingPageWeekly from "./pages/WeeklyTripBook"
+import PaymentWeeklyTrip from "./pages/paymentWeekly"
 
 console.log("Firebase Auth:", auth);
 
@@ -134,6 +135,7 @@ function App() {
         {/* <Route path="about" element={<AboutUs />} /> */}
 
         <Route path="/payment/:id" element={<PaymentPage />} />
+        <Route path="/paymentWeeklyTrip/:id" element={<PaymentWeeklyTrip />} />
 
         {/* <Route
           path="/admin/add-destination"

@@ -90,7 +90,7 @@ const BookingPage = () => {
 
       // 4️⃣ Redirect after 2 sec
       setTimeout(() => {
-        navigate(`/payment/${id}`, {
+        navigate(`/paymentWeeklyTrip/${id}`, {
           state: { booking: bookingData },
         });
       }, 2000);
