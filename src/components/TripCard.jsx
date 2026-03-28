@@ -4,15 +4,27 @@ import { useNavigate } from "react-router-dom";
 
 
 const TripCard = ({ trip }) => {
+    const getSeatStatus = () => {
+      const total = Number(trip?.seats.totalSeats);
+      const left = Number(trip?.seats.seatsLeft);
+
+      if (left === 0) return "sold_out";
+
+      const percentageLeft = (left / total) * 100;
+
+      if (percentageLeft <= 20) return "filling_fast";
+      return "available";
+    };
+    const status = getSeatStatus();
     const navigate = useNavigate();
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 group">
+    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 group min-w-[280px] max-w-[280px] flex-shrink-0 snap-start">
       {/* IMAGE */}
       <div className="relative">
         <img
           src={trip.coverImage || "/fallback.jpg"}
           alt={trip.title}
-          className="h-52 w-full object-cover group-hover:scale-105 transition duration-300"
+          className="h-52 w-full object-cover transition duration-300 group-hover:scale-110"
         />
 
         <div className="absolute top-2 left-2 flex gap-2">
@@ -24,17 +36,21 @@ const TripCard = ({ trip }) => {
           )}
 
           {/* Seat Status Badge */}
-          {trip.seats?.seatsLeft === 0 ? (
-            <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded">
-              Sold Out
+          {status === "available" && (
+            <span className="px-4 py-2 rounded-full bg-green-500 text-white font-semibold shadow-lg">
+              Available
             </span>
-          ) : trip.seats?.seatsLeft <= 5 ? (
-            <span className="bg-yellow-400 text-black text-xs px-2 py-1 rounded">
+          )}
+
+          {status === "filling_fast" && (
+            <span className="px-4 py-2 rounded-full bg-yellow-500 text-white font-semibold shadow-lg animate-pulse">
               Filling Fast
             </span>
-          ) : (
-            <span className="bg-green-500 text-white text-xs px-2 py-1 rounded">
-              Available
+          )}
+
+          {status === "sold_out" && (
+            <span className="px-4 py-2 rounded-full bg-red-600 text-white font-semibold shadow-lg">
+              Sold Out
             </span>
           )}
         </div>
@@ -55,12 +71,14 @@ const TripCard = ({ trip }) => {
         <div className="flex items-center justify-between mt-3">
           <div>
             <p className="text-lg font-bold text-green-600">
-              ₹{trip.pricingDetails?.pricePerPerson}
+              ₹
+              {trip.pricingDetails?.discountPrice ||
+                trip.pricingDetails?.pricePerPerson}
             </p>
 
             {trip.pricingDetails?.discountPrice && (
               <p className="text-sm line-through text-gray-400">
-                ₹{trip.pricingDetails.discountPrice}
+                ₹{trip.pricingDetails.pricePerPerson}
               </p>
             )}
           </div>

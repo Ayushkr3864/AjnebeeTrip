@@ -341,6 +341,38 @@ useEffect(() => {
               </motion.div>
             )}
 
+            <motion.div
+              key="captain"
+              className="bg-white/80 backdrop-blur-lg p-8 mt-5 rounded-3xl shadow-xl border border-white/50"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.4 }}
+            >
+              <h3 className="text-2xl font-bold mb-6 text-gray-800">
+                📅Trip Captain details
+              </h3>
+
+              <div className="flex flex-wrap md:flex-row gap-3">
+                <motion.h1
+                  className="border-2 border-indigo-300 bg-indigo-50 px-5 py-2.5 rounded-full text-sm font-medium text-indigo-700"
+                  whileHover={{ scale: 1.05, backgroundColor: "#e0e7ff" }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  Name: {trip.organizer?.name}
+                </motion.h1>
+                <motion.h1
+                  className="border-2 border-indigo-300 bg-indigo-50 px-5 py-2.5 rounded-full text-sm font-medium text-indigo-700"
+                  whileHover={{ scale: 1.05, backgroundColor: "#e0e7ff" }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  Phone: {trip.organizer?.phone}
+                </motion.h1>
+              </div>
+            </motion.div>
+
             {/* ITINERARY */}
             {activeTab === "itinerary" && (
               <motion.div
@@ -556,7 +588,7 @@ useEffect(() => {
           </table>
 
           <motion.button
-            onClick={() => navigate(`/book/${trip.id}`)}
+            onClick={() => navigate(`/bookweeklytrip/${trip.id}`)}
             className="mt-6 w-full bg-indigo-600 text-white py-4 rounded-full font-bold text-lg shadow-lg"
             whileHover={{ scale: 1.05, backgroundColor: "#4f46e5" }}
             whileTap={{ scale: 0.95 }}
