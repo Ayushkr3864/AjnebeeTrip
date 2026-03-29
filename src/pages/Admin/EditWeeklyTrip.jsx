@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 import Step1BasicInfo from "./addSteps/Step1BasicInfo";
 import Step2TripDates from "./addSteps/Step2TripDates";
 import Step3Pricing from "./addSteps/Step3Pricing";
@@ -6,69 +10,44 @@ import Step4Seats from "./addSteps/Step4Seats";
 import Step5Highlights from "./addSteps/Step5Highlights";
 import Step6itenary from "./addSteps/Step6itenary";
 import Step7Info from "./addSteps/Step7Info";
-import { db } from "../../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-const AddTrip = () => {
+const EditTrip = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(true);
 
-  const [formData, setFormData] = useState({
-    title: "",
-    destination: "",
-    category: "",
-    duration: "",
-    departureDate: "",
-    returnDate: "",
-    bookingDeadline: "",
-    batchDates: [],
-    pricingDetails: {
-      pricePerPerson: "",
-      discountPrice: "",
-      earlyBird: "",
-      groupDiscount: "",
-      paymentType: "full",
-      partialAmount: "",
-    },
-    priority: 1,
-    seats: {
-      totalSeats: "",
-      seatsLeft: "",
-      status: "",
-    },
-    highlights: [],
-    coverImage: "",
-    itinerary: [],
-    includes: [],
-    excludes: [],
-    importantInfo: {
-      whatToCarry: "",
-      weather: "",
-      idProof: "",
-      cancellation: "",
-    },
+  const [formData, setFormData] = useState(null);
 
-    organizer: {
-      name: "",
-      phone: "",
-    },
-  });
+  // 🔥 FETCH EXISTING TRIP
+  useEffect(() => {
+    const fetchTrip = async () => {
+      const docRef = doc(db, "Upcommingtrips", id);
+      const snap = await getDoc(docRef);
 
-  const handleSubmit = async (e) => {
+      if (snap.exists()) {
+        setFormData({ id: snap.id, ...snap.data() });
+      }
+
+      setLoading(false);
+    };
+
+    fetchTrip();
+  }, [id]);
+
+  if (loading) return <p className="text-center">Loading...</p>;
+  if (!formData) return <p>Trip not found</p>;
+
+  // 🔥 UPDATE HANDLER
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     try {
-      if (!formData.coverImage) {
-        alert("Please upload cover image");
-        return;
-      }
+      const tripRef = doc(db, "Upcommingtrips", id);
 
-      if (formData.itinerary.length === 0) {
-        alert("Please add itinerary");
-        return;
-      }
-
-      // ✅ FIX: Convert to numbers
-      const cleanedData = {
+      // ✅ Clean numeric fields
+      const updatedData = {
         ...formData,
         pricingDetails: {
           ...formData.pricingDetails,
@@ -80,31 +59,24 @@ const AddTrip = () => {
         seats: {
           ...formData.seats,
           totalSeats: Number(formData.seats.totalSeats),
-          seatsLeft: Number(formData.seats.totalSeats), // 🔥 auto set
+          seatsLeft: Number(formData.seats.seatsLeft),
         },
-        priority: Number(formData.priority),
-        createdAt: serverTimestamp(),
       };
 
-      const docRef = await addDoc(
-        collection(db, "Upcommingtrips"),
-        cleanedData,
-      );
+      await updateDoc(tripRef, updatedData);
 
-      console.log("Trip added:", docRef.id);
-      alert("Trip created successfully 🚀");
-
-      // reset...
+      alert("Trip updated successfully ✅");
+      navigate("/admin/trips");
     } catch (error) {
       console.error(error);
-      alert("Something went wrong ❌");
+      alert("Update failed ❌");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white/5">
+    <div className="min-h-screen flex items-center justify-center">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleUpdate}
         className="bg-white/5 border border-white/10 p-6 rounded-2xl w-full max-w-2xl"
       >
         {step === 1 && (
@@ -132,6 +104,7 @@ const AddTrip = () => {
             nextStep={() => setStep(4)}
           />
         )}
+
         {step === 4 && (
           <Step4Seats
             formData={formData}
@@ -140,6 +113,7 @@ const AddTrip = () => {
             nextStep={() => setStep(5)}
           />
         )}
+
         {step === 5 && (
           <Step5Highlights
             formData={formData}
@@ -148,6 +122,7 @@ const AddTrip = () => {
             nextStep={() => setStep(6)}
           />
         )}
+
         {step === 6 && (
           <Step6itenary
             formData={formData}
@@ -156,17 +131,27 @@ const AddTrip = () => {
             nextStep={() => setStep(7)}
           />
         )}
+
         {step === 7 && (
           <Step7Info
             formData={formData}
             setFormData={setFormData}
             prevStep={() => setStep(6)}
-            nextStep={() => setStep(8)}
           />
+        )}
+
+        {/* FINAL SAVE BUTTON */}
+        {step === 7 && (
+          <button
+            type="submit"
+            className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg"
+          >
+            Update Trip 🚀
+          </button>
         )}
       </form>
     </div>
   );
 };
 
-export default AddTrip;
+export default EditTrip;

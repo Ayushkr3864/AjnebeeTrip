@@ -6,6 +6,7 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  runTransaction,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import emailjs from "@emailjs/browser";
@@ -56,50 +57,83 @@ const BookingPage = () => {
 
   const total = selectedPrice * form.persons;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+   e.preventDefault();
 
-    setSubmitting(true); // 🔒 disable button
-    setSuccessMsg(""); // clear old message
+   setSubmitting(true);
+   setSuccessMsg("");
 
-    // const selectedPrice = trip.pricing?.[form.sharingType] || 0;
-    // const total = selectedPrice * form.persons;
+   const bookingData = {
+     ...form,
+     persons: Number(form.persons),
+     tourId: id,
+     tourTitle: trip.title,
+     pricePerPerson: selectedPrice,
+     totalPrice: total,
+     createdAt: new Date().toLocaleString(),
+   };
 
-    const bookingData = {
-      ...form,
-      persons: Number(form.persons),
-      tourId: id,
-      tourTitle: trip.title,
-      pricePerPerson: selectedPrice,
-      totalPrice: total,
-      createdAt: new Date().toLocaleString(),
-    };
+   try {
+     const tripRef = doc(db, "Upcommingtrips", id);
 
-    try {
-      // 1️⃣ Save booking
-      await addDoc(collection(db, "bookings"), {
-        ...bookingData,
-        status: "pending",
-        createdAt: serverTimestamp(),
-      });
+     await runTransaction(db, async (transaction) => {
+       const tripDoc = await transaction.get(tripRef);
 
-      // 2️⃣ Send email
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, bookingData, PUBLIC_KEY);
-      // 3️⃣ Show success message
-      setSuccessMsg("Booking successful 🎉 Redirecting to payment...");
+       if (!tripDoc.exists()) {
+         throw "Trip not found!";
+       }
 
-      // 4️⃣ Redirect after 2 sec
-      setTimeout(() => {
-        navigate(`/paymentWeeklyTrip/${id}`, {
-          state: { booking: bookingData },
-        });
-      }, 2000);
-    } catch (error) {
-      console.error("Booking Error:", error);
-      alert("Something went wrong!");
-      setSubmitting(false); // re-enable button if error
-    }
+       const tripData = tripDoc.data();
+       const seatsLeft = Number(tripData.seats?.seatsLeft || 0);
+       const persons = Number(form.persons);
+
+       // 🚨 Prevent overbooking
+       if (seatsLeft < persons) {
+         throw `Only ${seatsLeft} seats left!`;
+       }
+
+       // ✅ Reduce seats
+       const updatedSeats = seatsLeft - persons;
+
+       transaction.update(tripRef, {
+         "seats.seatsLeft": updatedSeats,
+       });
+
+       // ✅ Save booking inside transaction
+       const bookingRef = doc(collection(db, "bookings"));
+       transaction.set(bookingRef, {
+         ...bookingData,
+         status: "pending",
+         createdAt: serverTimestamp(),
+       });
+     });
+
+     // ✅ Send email
+     await emailjs.send(SERVICE_ID, TEMPLATE_ID, bookingData, PUBLIC_KEY);
+
+     setSuccessMsg("Booking successful 🎉 Redirecting...");
+
+     setTimeout(() => {
+       navigate(`/paymentWeeklyTrip/${id}`, {
+         state: { booking: bookingData },
+       });
+     }, 2000);
+   } catch (error) {
+     console.error("Booking Error:", error);
+     alert(error);
+     setSubmitting(false);
+   }
   };
+  
+  if (trip.seats?.seatsLeft <= 0) {
+    return (
+      <div className="text-center py-20">
+        <h2 className="text-2xl font-bold text-red-500">
+          ❌ This trip is sold out
+        </h2>
+      </div>
+    );
+  }
   return (
     <div className="relative min-h-screen flex items-center justify-center px-6 py-20 bg-[#f6f8ff] overflow-hidden">
       {/* 🔵 Floating Shapes */}

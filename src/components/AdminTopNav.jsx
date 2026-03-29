@@ -41,12 +41,12 @@ export default function AdminTopNav() {
           <NavLink to="/admin/trips" className={navItemClass}>
             <MapPin size={16} /> Trips
           </NavLink>
-          <NavLink to="/admin/upcommingTrip" className={navItemClass}>
+          {/* <NavLink to="/admin/upcommingTrip" className={navItemClass}>
             <MapPin size={16} /> Add Upcomming Trips
-          </NavLink>
+          </NavLink> */}
 
           <NavLink to="/view/admin/upcommingTrip" className={navItemClass}>
-            <MapPin size={16} /> Add Upcomming Trips
+            <MapPin size={16} />  Upcomming Trips
           </NavLink>
 
           <NavLink to="/admin/feedback" className={navItemClass}>
@@ -90,20 +90,20 @@ export default function AdminTopNav() {
           >
             <MapPin size={16} /> Trips
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/admin/upcommingTrip"
             onClick={() => setMobileOpen(false)}
             className={navItemClass}
           >
             <MapPin size={16} /> Add Upcomming Trips
-          </NavLink>
+          </NavLink> */}
 
           <NavLink
             to="/view/admin/upcommingTrip"
             onClick={() => setMobileOpen(false)}
             className={navItemClass}
           >
-            <MapPin size={16} /> Add Upcomming Trips
+            <MapPin size={16} /> Upcomming Trips
           </NavLink>
 
           <NavLink

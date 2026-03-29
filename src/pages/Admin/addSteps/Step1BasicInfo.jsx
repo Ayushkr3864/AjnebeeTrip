@@ -1,41 +1,72 @@
 import React from "react";
 
-const Step1BasicInfo = ({ formData, setFormData, nextStep }) => {
+const EditStep1BasicInfo = ({ formData, setFormData, nextStep }) => {
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+  };
+
+  // ✅ Validation before next
+  const handleNext = () => {
+    if (!formData?.title?.trim()) {
+      alert("Trip title is required");
+      return;
+    }
+
+    if (!formData?.destination?.trim()) {
+      alert("Destination is required");
+      return;
+    }
+
+    if (!formData?.category) {
+      alert("Please select category");
+      return;
+    }
+
+    if (!formData?.duration?.trim()) {
+      alert("Duration is required");
+      return;
+    }
+
+    nextStep();
   };
 
   return (
     <div className="bg-white/5 p-6 rounded-2xl shadow-lg w-full max-w-md">
+      {/* TITLE */}
       <h2 className="text-2xl font-bold mb-4 text-center">
-        Step 1: Basic Info
+        ✏️ Edit Trip Basic Info
       </h2>
 
       <div className="flex flex-col gap-4">
+        {/* TITLE */}
         <input
           type="text"
           name="title"
           placeholder="Trip Title"
-          value={formData.title}
+          value={formData?.title || ""}
           onChange={handleChange}
-          className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
 
+        {/* DESTINATION */}
         <input
           type="text"
           name="destination"
           placeholder="Destination"
-          value={formData.destination}
+          value={formData?.destination || ""}
           onChange={handleChange}
-          className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
 
+        {/* CATEGORY */}
         <select
           name="category"
-          value={formData.category}
+          value={formData?.category || ""}
           onChange={handleChange}
           className="border p-2 rounded-lg"
         >
@@ -47,21 +78,24 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep }) => {
           <option value="Trek">Trek</option>
         </select>
 
+        {/* DURATION */}
         <input
           type="text"
           name="duration"
           placeholder="4 Days / 3 Nights"
-          value={formData.duration}
+          value={formData?.duration || ""}
           onChange={handleChange}
           className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
+
+        {/* PRIORITY */}
         <div>
           <p className="font-medium mb-1">Trip Priority</p>
           <input
             type="number"
             name="priority"
-            placeholder="Enter priority (e.g. 1–10)"
-            value={formData.priority}
+            placeholder="1–10"
+            value={formData?.priority ?? ""}
             onChange={(e) =>
               setFormData({
                 ...formData,
@@ -72,8 +106,16 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep }) => {
           />
         </div>
 
+        {/* 🔥 LIVE PREVIEW */}
+        <div className="bg-gray-100 p-3 rounded-lg text-sm text-gray-700">
+          <p className="font-semibold">{formData?.title || "Trip Title"}</p>
+          <p>📍 {formData?.destination || "Destination"}</p>
+          <p>🗓 {formData?.duration || "Duration"}</p>
+        </div>
+
+        {/* BUTTON */}
         <button
-          onClick={nextStep}
+          onClick={handleNext}
           className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
         >
           Next ➡️
@@ -83,4 +125,4 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep }) => {
   );
 };
 
-export default Step1BasicInfo;
+export default EditStep1BasicInfo;

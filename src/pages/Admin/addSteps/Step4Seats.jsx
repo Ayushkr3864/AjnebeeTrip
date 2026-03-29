@@ -1,12 +1,15 @@
 import React from "react";
 
-const Step4Seats = ({ formData, setFormData, prevStep,nextStep }) => {
-  const handleChange = (e) => {
+const Step4Seats = ({ formData, setFormData, prevStep, nextStep }) => {
+  const handleSeatsChange = (e) => {
+    const total = Number(e.target.value);
+
     setFormData({
       ...formData,
       seats: {
         ...formData.seats,
-        [e.target.name]: e.target.value,
+        totalSeats: total,
+        seatsLeft: total, // 🔥 AUTO SET
       },
     });
   };
@@ -24,32 +27,18 @@ const Step4Seats = ({ formData, setFormData, prevStep,nextStep }) => {
           name="totalSeats"
           placeholder="Total Seats"
           value={formData.seats.totalSeats}
-          onChange={handleChange}
+          onChange={handleSeatsChange}
           className="border p-2 rounded-lg"
         />
 
-        {/* Seats Left */}
-        <input
-          type="number"
-          name="seatsLeft"
-          placeholder="Seats Left"
-          value={formData.seats.seatsLeft}
-          onChange={handleChange}
-          className="border p-2 rounded-lg"
-        />
-
-        {/* Trip Status */}
-        <select
-          name="status"
-          value={formData.seats.status}
-          onChange={handleChange}
-          className="border p-2 rounded-lg"
-        >
-          <option value="">Select Status</option>
-          <option value="available">Available</option>
-          <option value="filling">Filling Fast</option>
-          <option value="sold">Sold Out</option>
-        </select>
+        {/* 🔥 LIVE PREVIEW */}
+        {formData.seats.totalSeats > 0 && (
+          <div className="bg-gray-100 p-3 rounded-lg text-sm text-gray-700">
+            <p>🎟 Total Seats: {formData.seats.totalSeats}</p>
+            <p>🟢 Seats Left: {formData.seats.seatsLeft}</p>
+            <p className="text-green-600 font-semibold">Status: Active</p>
+          </div>
+        )}
 
         {/* Navigation */}
         <div className="flex justify-between">
